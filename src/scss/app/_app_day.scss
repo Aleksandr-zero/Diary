@@ -1,0 +1,293 @@
+.app-day {
+    width: 100%;
+    height: 100%;
+	
+    &__content {
+
+        &-title {
+            color: $color-text-section-days;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        &-items-notes-day {
+            margin-top: 45px;
+            height: 370px;
+            overflow-y: auto;
+
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-columns: 32% 32% 32%;
+            grid-gap: 0px 15px;
+
+            &::-webkit-scrollbar {
+                width: 8px;
+                height: 4px;
+                background-color: $white-color;
+            }
+            
+            &::-webkit-scrollbar-thumb {
+                background-color: $color-btn;
+            }
+        }
+
+        &-note-day {
+            color: $white-color;
+            position: relative;
+
+            margin-bottom: 20px;
+            border-radius: 15px;
+            padding: 10px 15px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            
+            transition: all $animate;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &::before {
+                position: absolute;
+                content: "";
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+                width: 0;
+                height: 4px;
+                border-radius: 4px;
+                background-color: $white-color;
+                transition: width $animate * 2.5;
+                z-index: 1;
+            }
+
+            &::after {
+                position: absolute;
+                content: "";
+                left: 50%;
+                top: 50%;
+                height: 24px;
+                width: 24px;
+                transform: translate(-50%, -50%) scale(0);
+                background-image: url(../img/icons/check-mark.svg);
+                opacity: 0.75;
+                transition: all $animate * 2;
+            }
+
+            &.animation-delete {
+                width: 100%;
+                animation: animation-delete-completed-note $animate * 3;
+
+                &::before {
+                    width: 100%;
+                }
+            }
+
+            &.animation-completed {
+                width: 100%;
+                animation: animation-delete-completed-note $animate * 3;
+
+                &::after {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1.5);
+                }
+            }
+
+            &.degree-importance-important {
+                &:hover { background-color: darken($red-color, 5%); }
+            }
+            
+            &.degree-importance-average {
+                &:hover { background-color: darken($yellow-color, 5%); }
+            }
+            
+            &.degree-importance-simple {
+                &:hover { background-color: darken($green-color, 5%); }
+            }
+            
+            &.degree-importance-normal {
+                &:hover { background-color: darken(#b1b1b1, 5%); }
+            }
+
+            &:hover {
+                .app-day__content-note-day-wrapper {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+
+            &-back-close {
+                position: absolute;
+                top: 8px;
+                left: 30px;
+
+                &-btn {
+                    display: flex;
+
+                    path {
+                        transition: all $animate;
+                    }
+
+                    &:hover {
+                        path {
+                            fill: $color-btn;
+                        }
+                    }
+                }
+            }
+
+            &-back-add {
+                position: absolute;
+                top: 6px;
+                right: 30px;
+
+                &-btn {
+                    display: flex;
+
+                    path {
+                        transition: all $animate;
+                    }
+
+                    &:hover {
+                        path {
+                            stroke: $color-btn;
+                        }
+                    }
+                }
+            }
+
+            &-wrapper {
+                display: flex;
+
+                transition: opacity $animate, visibility $animate;
+
+                &:first-child {
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                &:last-child {
+                    opacity: 0;
+                    visibility: hidden;
+                    justify-content: flex-end;
+                    align-items: center;
+                    margin-top: 24px;
+                }
+            }
+
+            &-title {
+                font-weight: 500;
+                font-size: 18px;
+            }
+
+            &-text {
+                line-height: 20/16 * 100%;
+                margin-top: 20px;
+            }
+
+            &-back-time {
+                margin-right: 25px;
+            }
+
+            &-time {
+                font-weight: 500;
+            }
+
+            &-back-btn-edit {
+                margin-right: 20px;
+            }
+
+            &-back-btn-delete {
+                margin-left: 20px;
+            }
+
+            .app-day-content-note-day-btn {
+                display: flex;
+            }
+
+            &-btn-edit {
+                svg {
+                    transition: transform $animate;
+                }
+
+                &:hover {
+                    svg {
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+
+            &-btn-completed {
+                display: block;
+                position: relative;
+                font-size: 0;
+                color: transparent;
+                width: 20px;
+                height: 20px;
+                border: 2.5px solid $white-color;
+                border-radius: 6px;
+
+                &::before,
+                &::after {
+                    position: absolute;
+                    content: "";
+                    width: 3px;
+                    background-color: $white-color;
+                    border-top-left-radius: 2px;
+                    border-top-right-radius: 2px;
+                    opacity: 0;
+                    transition: opacity $animate;
+                }
+
+                &:before {
+                    height: 12px;
+                    top: 1.5px;
+                    right: 4.5px;
+                    transform: rotate(34deg);
+                    border-bottom-right-radius: 2px;
+                }
+
+                &::after {
+                    height: 6px;
+                    top: 6px;
+                    left: 2.5px;
+                    transform: rotate(-50deg);
+                    border-bottom-left-radius: 2px;
+                }
+
+                &:hover {
+
+                    &::before,
+                    &::after {
+                        opacity: 1;
+                    }
+                }
+
+                &.note-day-btn-completed-active {
+                    &::before,
+                    &::after {
+                        opacity: 1;
+                    }
+                }
+            }
+
+            &-btn-delete {
+                svg {
+                    #animate-btn-delete {
+                        transition: transform $animate;
+                    }
+                }
+
+                &:hover {
+                    svg {
+                        #animate-btn-delete {
+                            transform: rotate(-15deg);
+                        }
+                    } 
+                }
+            }
+        }
+    }
+}
