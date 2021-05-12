@@ -1,0 +1,161 @@
+.calendar {
+
+    &__form {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        z-index: 50;
+        background-color: rgba($black-color, 0.5);
+
+        opacity: 0;
+        visibility: hidden;
+
+        transition: all $animate * 1.5;
+
+        &.calendar-form-active{
+            opacity: 1;
+            visibility: visible;
+
+            .calendar__form-content {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        &-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        &-content {
+            padding: 24px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
+            opacity: 0;
+            background-color: $white-color;
+            border-radius: 20px;
+
+            transition: all $animate * 1.5;
+
+            &-back {
+                display: flex;
+                flex-direction: column;
+
+                .calendar-form-input {
+                    border: 2px solid transparent;
+
+                    &.calendar-form-input-lack-text {
+                        border: 2px solid $red-color;
+                    }
+                }
+
+                &-input {
+                    border-top-left-radius: 14px;
+                    border-top-right-radius: 14px;
+                }
+
+                &-textarea {
+
+                    &::-webkit-scrollbar {
+                        width: 8px;
+                        height: 4px;
+                        background-color: $color-back-nav-footer;
+                        transition: background-color $animate;
+                    }
+                    
+                    &::-webkit-scrollbar-thumb {
+                        background-color: $color-btn;
+                    }
+                }
+
+                &-btn {
+                    display: flex;
+                    justify-content: center;
+                    padding: 10px 0;
+                    font-size: 18px;
+
+                    border-bottom-left-radius: 14px;
+                    border-bottom-right-radius: 14px;
+
+                    background-color: $color-btn;
+                    color: $white-color;
+
+                    transition: background-color $animate;
+
+                    &:hover {
+                        background-color: darken($color-btn, 5%);
+                    }
+                }
+
+                &-input,
+                &-textarea {
+                    margin-bottom: 16px;
+                    padding: 10px;
+                    font-size: 18px;
+                    background-color: $color-back-nav-footer;
+                    transition: background-color $animate, border $animate;
+
+                    &:focus {
+                        background-color: darken($color-back-nav-footer, 8%);
+
+                        &::-webkit-scrollbar {
+                            background-color: darken($color-back-nav-footer, 8%);
+                        }
+                    }
+                }
+
+                &-btns {
+                    display: flex;
+                    justify-content: space-around;
+                    margin-bottom: 16px;
+                }
+
+                &-btn-level {
+                    width: 36px;
+                    height: 36px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: $white-color;
+                    border-radius: 30px;
+                    user-select: none;
+
+                    transition: width $animate, background-color $animate;
+
+                    &.calendar-form-btn-level-active {
+                        width: 140px;
+                    }
+
+                    &.calendar-form-btn-level-important {
+                        background-color: $red-color;
+
+                        &:hover {
+                            background-color: darken($red-color, 5%);
+                        }
+                    }
+
+                    &.calendar-form-btn-level-average {
+                        background-color: $yellow-color;
+
+                        &:hover {
+                            background-color: darken($yellow-color, 5%);
+                        }
+                    }
+
+                    &.calendar-form-btn-level-simple {
+                        background-color: $green-color;
+
+                        &:hover {
+                            background-color: darken($green-color, 5%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

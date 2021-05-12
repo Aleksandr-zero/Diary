@@ -1,0 +1,15 @@
+.degree-importance-important {
+    background-color: $red-color;
+}
+
+.degree-importance-average {
+    background-color: $yellow-color;
+}
+
+.degree-importance-simple {
+    background-color: $green-color;
+}
+
+.degree-importance-normal {
+    background-color:lighten(#979797, 10%);
+}

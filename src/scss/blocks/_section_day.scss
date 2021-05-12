@@ -1,0 +1,30 @@
+.section-days {
+    margin-top: 48px;
+    transition: all $animate * 1.25;
+
+    &.section-days-pass {
+        opacity: 0;
+        margin-top: 0;
+    }
+
+    &__content {
+
+        &-items {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        &-item {
+            width: 14.28%;
+            text-align: center;
+
+            &-title {
+                font-size: 14px;
+                line-height: 18/14 * 100%;
+                font-weight: 400;
+                color: $color-text-section-days;
+                user-select: none;
+            }
+        }
+    }
+}

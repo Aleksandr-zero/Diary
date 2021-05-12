@@ -1,0 +1,149 @@
+.nav-header {
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        
+        &-back-btn-date {
+            display: flex;
+        }
+
+        &-btn-date {
+            font-size: 12px;
+            line-height: 16/12 * 100%;
+            font-weight: 400;
+            color: $color-border_text;
+
+            display: flex;
+            align-items: center;
+
+            padding: 12px 34px 12px 24px;
+
+            border: 1px solid $color-border_text;
+            border-radius: 10px;
+
+            transition: background-color $animate, color $animate;
+
+            svg {
+                margin-right: 10px;
+                
+                path {
+                    transition: fill $animate;
+                }
+            }
+
+            &:hover {
+                background-color: $color-border_text;
+                color: $white-color;
+
+                svg {
+                    path {
+                        fill: $white-color;
+                    }
+                }
+            }
+        }
+
+        &-btn-items {
+            display: flex;
+        }
+
+        &-btn-item {
+            margin-right: 20px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+ 
+            &-link {
+                font-weight: 400;
+                font-size: 12px;
+                line-height: 16/12 * 100%;
+                
+                color: $color-btn-text;
+
+                border: 1px solid #DADADA;
+                border-radius: 10px;
+
+                display: flex;
+                justify-content: center;
+
+                padding: 12px 0;
+                width: 85px;
+
+                transition: all $animate;
+
+                &:hover {
+                    border: 1px solid $color-border_text;
+                    color: $color-border_text;
+                }
+
+                &:active {
+                    border: 1px solid darken($color-border_text, 15%);
+                    color: darken($color-border_text, 15%);
+                }
+
+                &.nav-header-btn-swicth-active {
+                    border: 1px solid $color-border_text;
+                    color: $color-border_text;
+                    pointer-events: none;
+                }
+            }
+        }
+
+        &-back-btn-month {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            width: 170px;
+            user-select: none;
+            
+            &-content {
+                color: #666666;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+
+                p {
+                    transition: opacity $animate * 1.25;
+
+                    &.btn-month-content-active {
+                        opacity: 0;
+                    }
+                }
+            }
+        }
+
+        &-btn-month {
+            padding: 0 8px;
+            transition: opacity $animate * 1.25;
+
+            svg {
+                path {
+                    transition: all $animate;
+                }
+            }
+
+            &.nav-header-content-btn-month-pass {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            &.nav-header-btn-month-right {
+                svg {
+                    transform: rotate(180deg);
+                }
+            }
+
+            &:hover {
+                svg {
+                    path {
+                        fill: $color-btn;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,61 @@
+/* FONTS */
+@import "fonts";
+
+/* RESET */
+@import "reset/reset";
+
+/* VARS */
+@import "reset/vars";
+
+/* COMMON */
+@import "reset/common";
+
+
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: $white-color;
+}
+
+
+/* CALENDAR */
+@import "calendar";
+
+
+// CALENDAR-FORM
+@import "blocks/form";
+
+
+/* SEARCH-FORM */
+@import "blocks/search";
+
+
+/* COMPONENT NOTICE and LIVE SEARCH */
+@import "component/calendar";
+@import "component/notice";
+@import "component/live_search";
+
+
+/* NAV-HEADER */
+@import "blocks/nav_header";
+
+
+/* SECTION-DAY */
+@import "blocks/section_day";
+
+
+/* APP */
+@import "app";
+
+
+/* NAV-FOOTER */
+@import "blocks/nav_footer";
+
+
+/* ADDING-ENTRY */
+@import "blocks/adding_entry";

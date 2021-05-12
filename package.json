@@ -1,0 +1,33 @@
+{
+  "name": "diary",
+  "version": "1.0.0",
+  "description": "Daily planner",
+  "main": "gulpfile.js",
+  "scripts": {
+    "dev": "gulp serve",
+    "build": "gulp build"
+  },
+  "browserslist": [
+    "last 2 version"
+  ],
+  "author": "Aleksandr Silkin",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "babel-loader": "^8.2.2",
+    "browser-sync": "^2.26.14",
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-file-include": "^2.3.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-strip-css-comments": "^2.0.0",
+    "webpack": "^5.36.2",
+    "webpack-stream": "^6.1.2"
+  }
+}

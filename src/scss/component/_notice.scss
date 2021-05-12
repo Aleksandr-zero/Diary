@@ -1,0 +1,124 @@
+.notice {
+
+    &__content {
+
+        &-back-btn-notice {
+            position: relative;
+        }
+
+        &-back-notice {
+            position: absolute;
+            left: -250px;
+            top: 0;
+            height: 160px;
+            width: 240px;
+            background-color: $color-back-notice;
+            border-radius: 15px;
+            transition: visibility $animate * 1.5, opacity $animate * 1.5;
+            padding: 10px 14px 6px 14px;
+
+            &-title {
+                font-weight: 500;
+                color: $white-color;
+            }
+
+            &-items {
+                margin-top: 12px;
+                overflow-y: auto;
+                height: 72%;
+
+                &::-webkit-scrollbar {
+                    width: 0;
+                    height: 0;
+                }
+            }
+
+            &-item {
+                padding: 4px 8px;
+                border-radius: 8px;
+                margin-bottom: 8px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                &-text {
+                    p {
+                        width: 180px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        color: $white-color;
+                    }
+                }
+            }
+        }
+
+        &-btn-notice {
+            position: relative;
+            display: flex;
+            z-index: 1;
+
+            &::before,
+            &::after {
+                position: absolute;
+                content: "";
+                visibility: hidden;
+                opacity: 0;
+                transition: all $animate;
+            }
+
+            &::before {
+                width: 8px;
+                height: 8px;
+                background-color: $color-notice;
+                border-radius: 50%;
+                top: 0;
+                right: 0;
+                z-index: 3;
+            }
+
+            &::after {
+                width: 10px;
+                height: 10px;
+                z-index: 2;
+                background-color: $white-color;
+                top: 0;
+                right: 0;
+            }
+
+            &.btn-notice-active {
+                &::before,
+                &::after {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+        }
+
+        &-back-notice-not-notes {
+            position: absolute;
+            top: 0;
+            left: -210px;
+            height: 90px;
+            width: 200px;
+            background-color: $color-back-notice;
+            border-radius: 15px;
+            padding: 10px 14px 6px;
+
+            transition: visibility $animate * 1.5, opacity $animate * 1.5;
+
+            &-title {
+                font-weight: 500;
+                color: $white-color;
+            }
+
+            &-text {
+                line-height: 1.4;
+                font-size: 14px;
+                margin-top: 2px;
+                color: $white-color;
+            }
+        }
+    }
+}

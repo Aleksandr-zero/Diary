@@ -1,0 +1,46 @@
+/* APPS */
+
+@import "./app/app_month";
+@import "./app/app_day";
+
+
+.wrapper-app {
+    margin-top: 18px;
+}
+
+.app {
+    transition: transform $animate * 1.5, opacity $animate * 1.5;
+    position: relative;
+
+    animation: emergence-app $animate * 1.5;
+
+    &.switching-app {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    @keyframes emergence-app {
+        0% {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes animation-delete-completed-note {
+        0% {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        100% {
+            transform: rotate(6deg) translateY(150px);;
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+}
