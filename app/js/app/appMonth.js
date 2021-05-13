@@ -141,6 +141,10 @@ export class GenerationAppMonth {
 
         event.preventDefault();
 
+        if (this.appContent.querySelector(".app-month__content-item-context-menu")) {
+           this.appContent.querySelector(".app-month__content-item-context-menu").remove();
+        };
+
         const targetData = event.currentTarget.getBoundingClientRect();
 
         const positionPressedX = event.clientX - targetData.left;
@@ -463,13 +467,33 @@ class ComponentContextMenu_AppMonth {
     */
 
     constructor() {
+        this.menuState = 0;
+        this.lastPressedDay;
 
         this.addEventClick_InactiveZoneContextMenu = () => {
             /* При нажатии на неактивную зону 'backContextMenu' удаляем контект меню.  */
 
+            event.preventDefault();
+
             if (!event.target.closest(".app-month__content-item-context-menu")) {
+
+                if (event.type === "contextmenu" && this.menuState === 0) {
+                    this.menuState = 1;
+                    this.lastPressedDay = event.target.closest(".app-month__content-item");
+
+                    return;
+                };
+
+                if (event.type === "contextmenu") {
+                    this.lastPressedDay.removeAttribute("style");
+                    this.lastPressedDay = null;
+                };
+
                 this.deleteContextMenu();
                 document.removeEventListener("click", this.addEventClick_InactiveZoneContextMenu);
+                document.removeEventListener("contextmenu", this.addEventClick_InactiveZoneContextMenu);
+
+                this.menuState = 0;
             };
         };
     }
@@ -503,6 +527,7 @@ class ComponentContextMenu_AppMonth {
         this.backContextMenu.setAttribute("class", "app-month__content-item-context-menu");
 
         document.addEventListener("click", this.addEventClick_InactiveZoneContextMenu);
+        document.addEventListener("contextmenu", this.addEventClick_InactiveZoneContextMenu);
 
         this.backContextMenu.insertAdjacentHTML("beforeend", `
             <div class="app-month__content-item-context-menu-back-btns">
