@@ -15,10 +15,9 @@
             height: 370px;
             overflow-y: auto;
 
-            display: grid;
-            grid-template-rows: 1fr 1fr 1fr;
-            grid-template-columns: 32% 32% 32%;
-            grid-gap: 0px 15px;
+           transition: transform $animate * 1.5, opacity $animate * 1.5;
+
+           animation: emergence-app $animate * 1.5;
 
             &::-webkit-scrollbar {
                 width: 8px;
@@ -29,6 +28,53 @@
             &::-webkit-scrollbar-thumb {
                 background-color: $color-btn;
             }
+
+            &.app-day-items-notes-swicth-visual-content {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            &.visual-content-grid {
+                display: grid;
+                grid-template-rows: 1fr 1fr 1fr;
+                grid-template-columns: 32% 32% 32%;
+                grid-gap: 0px 15px;
+
+                .app-day__content-note-day {
+                    padding: 10px 15px;
+                }
+            }
+
+            &.visual-content-pillar {
+                display: flex;
+                flex-direction: column;
+
+                .app-day__content-note-day {
+                    flex-direction: row;
+                    padding: 12px;
+
+                    &-wrapper {
+
+                        &:first-child {
+                            flex-direction: row;
+                            align-items: center;
+                        }
+
+                        &:last-child {
+                            margin-top: 0;
+                        }
+                    }
+
+                    &-title {
+                        margin-right: 30px;
+                    }
+
+                    &-text {
+                        margin-top: 0;
+                        margin-right: 15px;
+                    }
+                }
+            }
         }
 
         &-note-day {
@@ -37,7 +83,6 @@
 
             margin-bottom: 20px;
             border-radius: 15px;
-            padding: 10px 15px;
 
             display: flex;
             flex-direction: column;
@@ -156,6 +201,32 @@
                         }
                     }
                 }
+            }
+
+            &-back-btns-switch {
+                position: absolute;
+                top: 8px;
+                right: 90px;
+                display: flex;
+            }
+
+            &-btn-switch-grid,
+            &-btn-switch-pillar {
+                display: flex;
+
+                svg {
+                    transition: all $animate;
+                }
+
+                &:hover {
+                    svg {
+                        fill: $color-btn;
+                    }
+                }
+            }
+
+            &-btn-switch-grid {
+                margin-right: 12px;
             }
 
             &-wrapper {

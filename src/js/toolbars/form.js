@@ -68,7 +68,7 @@ export class WorkingWithForm {
 	Класс для работы с формой.
     */
 
-	constructor(selectedDay, locationCreateNote) {
+	constructor() {
 		this.form = document.querySelector(".calendar__form");
 
 		this.form_BtnAdd = this.form.querySelector(".calendar__form-content-back-btn");
@@ -84,6 +84,12 @@ export class WorkingWithForm {
         this.pressedFormBtnAdd = () => {
             /* При нажатии добавляет заметку на выбранный день (если конечно она существует).  */
 
+            const runCode = this.checksFieldsForValues();
+
+            if (!runCode) {
+            	return;
+            };
+
             this.form_BtnAdd.removeEventListener("click", this.pressedFormBtnAdd);
 
             this.closeFormAddNew();
@@ -91,7 +97,7 @@ export class WorkingWithForm {
             this.checksForContent_FormInput();
             this.checksIfSeveritySensorInstalled_ForNote();
 
-            saveDataNote_NOTES_DATA(selectedDay, this.receivedDataFromForm, locationCreateNote);
+            saveDataNote_NOTES_DATA(this.selectedDay, this.receivedDataFromForm, this.locationCreateNote);
         };
 	}
 
@@ -159,9 +165,10 @@ export class WorkingWithForm {
     addEventPressed_FormInactiveZone() {
         /* Добавления события на форму - при нажатии на неактивную зону, форма закрывается.  */
 
-        this.form.addEventListener("click", (event) => {
+        this.form.addEventListener("click", () => {
             if (!event.target.closest(".calendar__form-content")) {
                 this.closeFormAddNew();
+                this.form_BtnAdd.removeEventListener("click", this.pressedFormBtnAdd);
             };
         });
     }
@@ -183,8 +190,29 @@ export class WorkingWithForm {
         event.currentTarget.classList.add("calendar-form-btn-level-active");
     }
 
+    checksFieldsForValues() {
+    	/* Проверяет наличие значений в полях формы.  */
 
-	start() {
+    	if ( !this.form_Inputs[0].value && !this.form_Inputs[1].value ) {
+    		this.form_Inputs[0].classList.add("calendar-form-input-lack-text");
+    		this.form_Inputs[1].classList.add("calendar-form-input-lack-text");
+
+    		setTimeout(() => {
+    			this.form_Inputs[0].classList.remove("calendar-form-input-lack-text");
+    			this.form_Inputs[1].classList.remove("calendar-form-input-lack-text");
+    		}, 2000)
+
+    		return false;
+    	};
+
+    	return true;
+    }
+
+
+	start(selectedDay, locationCreateNote) {
+		this.selectedDay = selectedDay;
+		this.locationCreateNote = locationCreateNote;
+
 		this.form.classList.add("calendar-form-active");
 
 		this.addEventPressed_Blcoks();

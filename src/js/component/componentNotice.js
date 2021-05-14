@@ -39,22 +39,23 @@ export class GenerationComponentNotice {
         this.addEventPressed_BtnNotice();
 
 
-        this.addEventMouseMove_ContentNotice = () => {
-            /*
-            Добавляет обработчик к блоку 'componentNoticeContent'. Если мышка не двигается по блоку, то мы ставим
-            таймер для удаление, в противном случае либо удаляем таймер, либо оставляем всё как есть.
-            */
+        this.addEventClickInactiveZone_ContentNotice = () => {
+            /* При клике на неактивную зону удаляет компонент.  */
 
-            const x = event.pageX;
-            const y = event.pageY;
+            if ( !event.target.closest(".notice__content-back-notice") && !event.target.closest(".notice__content-btn-notice") ) {
 
-            if ( ((x < this.leftBlock) || (x > this.rightBlock)) || ((y < this.topBlock) || (y > this.bottomBlock)) ) {
-                this.addEventDelete_ContentNotice(
-                    this.element = this.componentNoticeContent
-                );
-            } else {
-                return;
-            }
+                this.componentNoticeContent.style.cssText = `
+                    transition: all ${TIMEOUT * 4};
+                    opacity: 0;
+                `;
+
+                setTimeout(() => {
+                    this.componentNoticeContent.remove();
+                    this.btnNotice.style.cssText = `pointer-events: auto`;
+                }, 800);
+
+                document.removeEventListener("click", this.addEventClickInactiveZone_ContentNotice);
+            };
         };
 	}
 
@@ -74,16 +75,6 @@ export class GenerationComponentNotice {
             `;
         }, 0);
     }
-
-    findsCoordinatesOfComponentNoticeContent() {
-        /* Расчитывает все коориднты блока componentNoticeContent, для проверки его удаления.  */
-
-        this.leftBlock = this.componentNoticeContent.getBoundingClientRect().x
-        this.rightBlock = this.componentNoticeContent.getBoundingClientRect().x + this.componentNoticeContent.clientWidth
-        this.topBlock = this.componentNoticeContent.getBoundingClientRect().y
-        this.bottomBlock = this.componentNoticeContent.getBoundingClientRect().y + this.componentNoticeContent.clientHeight;
-    };
-
 
     // Отвечают за добавление событий.
     addEventPressed_BtnNotice() {
@@ -154,8 +145,6 @@ export class GenerationComponentNotice {
         this.backBtnNotice.append(this.componentNoticeContent);
 
         this.btnNotice.style.cssText = `pointer-events: none`;
-        this.findsCoordinatesOfComponentNoticeContent();
-        document.addEventListener("mousemove", this.addEventMouseMove_ContentNotice);
     }
 
     createComponentNotice_Note() {
@@ -193,6 +182,8 @@ export class GenerationComponentNotice {
 
             this.createComponentNotice_Content();
             this.createComponentNotice_Note();
+
+            document.addEventListener("click", this.addEventClickInactiveZone_ContentNotice);
         } else {
             this.createComponentNotice_NoNotes();
         };

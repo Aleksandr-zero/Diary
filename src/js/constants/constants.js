@@ -5,6 +5,11 @@ export const changeCurrentApp = (app) => {
 	CURRENT_APP = app;
 };
 
+export let CURRENT_VISUAL_CONTENT_DAY_NOTES = "pillar";
+export const changeCurrentVisualDayNotes = (visual) => {
+	CURRENT_VISUAL_CONTENT_DAY_NOTES = visual;
+};
+
 export const DATE = new Date();
 
 export let DATE_MONTH_CHANGE = DATE.getMonth();

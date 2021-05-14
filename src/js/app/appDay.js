@@ -5,6 +5,9 @@ import {
     CURRENT_APP,
     changeCurrentApp,
 
+    CURRENT_VISUAL_CONTENT_DAY_NOTES,
+    changeCurrentVisualDayNotes,
+
     DATE_MONTH_CHANGE,
 
     ARR_DAYS,
@@ -22,6 +25,7 @@ import {
 } from "./appMonth.js";
 
 import { WorkingWithForm } from "../toolbars/form.js";
+import { NavFooter } from "../toolbars/navFooter.js";
 
 import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
 
@@ -35,6 +39,7 @@ export class GenerationAppDay {
         this.appWrapper = document.querySelector(".wrapper-app")
 
         this.classGenerationAppMonth_CreateNotes = new GenerationAppMonth_CreateNotes();
+        this.classWorkingWithForm = new WorkingWithForm();
 
         this.formAddNew = document.querySelector(".calendar__form");
         this.formAddNew_BtnAdd = this.formAddNew.querySelector(".calendar__form-content-back-btn");
@@ -49,7 +54,7 @@ export class GenerationAppDay {
         this.currentBlockDay;
 
         this.pressedFormBtnAdd = () => {
-            /* Перезаписывает данные заметки или добавляет новую заметку в базу  */
+            /* Перезаписывает данные заметки.  */
 
             const inputSubjectValue = this.formAddNew.querySelector("input").value;
             const contentTextAreaValue = this.formAddNew.querySelector("textarea").value;
@@ -145,12 +150,8 @@ export class GenerationAppDay {
         });
     }
 
-    overwritesCurrentDataNoteWithNew(inputValue, textareaInput, btnLevel_Value, pressedDayMonth) {
+    overwritesCurrentDataNoteWithNew(inputValue, textareaInput, btnLevel_Value) {
         /* Перезаписывает текущие данные на новые на выбранной заметки.  */
-
-        if (pressedDayMonth) {
-            console.log(1);
-        }
 
         const dataSetBlockDay = this.getSetAttribute_BlockDay(
             this.blockDay = this.currentBlockDay
@@ -214,10 +215,10 @@ export class GenerationAppDay {
         this.formBtnAdd_AddNote = true;
         this.formBtnAdd_EditNote = false;
 
-        new WorkingWithForm(
+        this.classWorkingWithForm.start(
             this.currentBlockDay,
             "day"
-        ).start();
+        );
     }
 
     addCurrentDataNote_ToForm() {
@@ -272,6 +273,32 @@ export class GenerationAppDay {
             this.classGenerationAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
 
             this.blocksBtnsHeaderMonth();
+        }, TIMEOUT * 1.25);
+    }
+
+    pressedBtnSwicthVisualContent() {
+        /* Переключает визуальное окружение заметок  */
+
+        const lengthClassCurrentTarget = event.currentTarget.classList[0].split("-").length;
+
+        if ( CURRENT_VISUAL_CONTENT_DAY_NOTES === event.currentTarget.classList[0].split("-")[lengthClassCurrentTarget - 1] ) {
+            return;
+        };
+
+        if ( event.currentTarget.classList[0].split("-")[lengthClassCurrentTarget - 1] === "grid" ) {
+            changeCurrentVisualDayNotes("grid");
+        } else if ( event.currentTarget.classList[0].split("-")[lengthClassCurrentTarget - 1] === "pillar" ) {
+            changeCurrentVisualDayNotes("pillar");
+        };
+
+        this.appDayNoteItems.classList.add("app-day-items-notes-swicth-visual-content");
+
+        setTimeout(() => {
+            this.appDayNoteItems.remove();
+            this.appDayNoteItems = document.createElement("div");
+
+            this.createNoteItems_AppDay();
+            this.createContent_AppDay();
         }, TIMEOUT * 1.25);
     }
 
@@ -365,7 +392,11 @@ export class GenerationAppDay {
     createNoteItems_AppDay() {
         /* Создаёт контейнер для заметок.  */
 
-        this.appDayNoteItems.setAttribute("class", "app-day__content-items-notes-day");
+        if ( CURRENT_VISUAL_CONTENT_DAY_NOTES === "pillar" ) {
+            this.appDayNoteItems.setAttribute("class", "app-day__content-items-notes-day visual-content-pillar");
+        } else if ( CURRENT_VISUAL_CONTENT_DAY_NOTES === "grid" ) {
+            this.appDayNoteItems.setAttribute("class", "app-day__content-items-notes-day visual-content-grid");
+        };
 
         this.appDayContent.append(this.appDayNoteItems);
     }
@@ -387,6 +418,42 @@ export class GenerationAppDay {
         backBtnAddNote.append(btnAppNote);
 
         this.appDayContent.append(backBtnAddNote);
+    }
+
+    createNotesBtns_SwitchingVisualContent() {
+        /*
+        Создаёт кнопки переключение визулального контента (позваоляет разместить заметки либо
+        сеткой, либо в столбеу). 
+        */
+
+        const backBtnsSwitchVisualContent = document.createElement("div");
+        backBtnsSwitchVisualContent.setAttribute("class", "app-day__content-note-day-back-btns-switch");
+
+        const btnSwicthVisualContentGrid = document.createElement("a");
+        btnSwicthVisualContentGrid.setAttribute("class", "app-day__content-note-day-btn-switch-grid");
+        btnSwicthVisualContentGrid.setAttribute("role", "button");
+        btnSwicthVisualContentGrid.insertAdjacentHTML("beforeend", `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#666666" width="20" height="20" viewBox="0 0 24 24">
+                <path d="M6 6h-6v-6h6v6zm9-6h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9
+                0h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6z"/>
+            </svg>
+        `);
+        btnSwicthVisualContentGrid.addEventListener("click", () => { this.pressedBtnSwicthVisualContent(); });
+
+        const btnSwicthVisualContentPillar = document.createElement("a");
+        btnSwicthVisualContentPillar.setAttribute("class", "app-day__content-note-day-btn-switch-pillar");
+        btnSwicthVisualContentPillar.setAttribute("role", "button");
+        btnSwicthVisualContentPillar.insertAdjacentHTML("beforeend", `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#666666" width="20" height="20" viewBox="0 0 24 24">
+                <path d="M2 23h-2v-2h2v2zm0-12h-2v2h2v-2zm0 5h-2v2h2v-2zm0-15h-2v2h2v-2zm2 0v2h20v-2h-20zm-2
+                5h-2v2h2v-2zm2 7h20v-2h-20v2zm0 10h20v-2h-20v2zm0-15h20v-2h-20v2zm0 10h20v-2h-20v2z"/>
+            </svg>
+        `);
+        btnSwicthVisualContentPillar.addEventListener("click", () => { this.pressedBtnSwicthVisualContent(); });
+
+        backBtnsSwitchVisualContent.append(btnSwicthVisualContentGrid, btnSwicthVisualContentPillar);
+
+        this.appDayContent.append(backBtnsSwitchVisualContent);
     }
 
     createNoteBtnBack_AppDay() {
@@ -433,6 +500,7 @@ export class GenerationAppDay {
         this.createTitle_AppDay();
         this.createNoteBtnBack_AppDay();
         this.createBtnAdd_AppDay();
+        this.createNotesBtns_SwitchingVisualContent();
         this.createNoteItems_AppDay();
         this.createContent_AppDay();
 

@@ -26,6 +26,7 @@ export class GenerationAppMonth {
     constructor(generationForFirstLaunch) {
 
         this.classComponentContextMenu_AppMonth = new ComponentContextMenu_AppMonth();
+        this.classWorkingWithForm = new WorkingWithForm();
 
         this.generationForFirstLaunch = generationForFirstLaunch;
         this.checksAppNeedsCreated_FirstLaunch();
@@ -165,7 +166,10 @@ export class GenerationAppMonth {
 
         event.target.closest(".app-month__content-item").style.cssText = `
             overflow: visible;
-            z-index: 20;
+            border: 0.5px solid #884CB2;
+            background-color: rgba(136, 76, 178, 0.15);
+            overflow: visible;
+            z-index: 30;
         `;
     }
 
@@ -470,6 +474,8 @@ class ComponentContextMenu_AppMonth {
         this.menuState = 0;
         this.lastPressedDay;
 
+        this.classWorkingWithForm = new WorkingWithForm();
+
         this.addEventClick_InactiveZoneContextMenu = () => {
             /* При нажатии на неактивную зону 'backContextMenu' удаляем контект меню.  */
 
@@ -509,10 +515,10 @@ class ComponentContextMenu_AppMonth {
     pressedBtnCreateNote() {
         /* Открывает окно создание заметки.  */
 
-        new WorkingWithForm(
+        this.classWorkingWithForm.start(
             event.target.closest(".app-month__content-item"),
             "month"
-        ).start();
+        );
 
         this.deleteContextMenu();
     }

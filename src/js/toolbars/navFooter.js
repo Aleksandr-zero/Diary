@@ -26,6 +26,7 @@ export class NavFooter {
 
     constructor() {
         this.classGenerationAppMonth = new GenerationAppMonth(false);
+        this.classWorkingWithForm = new WorkingWithForm();
 
         this.navFooter = document.querySelector("#nav-footer");;
         this.navFooterBtnAddNew = this.navFooter.querySelector(".nav-footer__content-btn");
@@ -37,12 +38,11 @@ export class NavFooter {
 
             // Идёт проверка на то, чтобы ползователь выбрал день месяца.
             if (this.activeItemBlockApp) {
-                const classWorkingWithForm= new WorkingWithForm(
+
+                this.classWorkingWithForm.start(
                     this.activeItemBlockApp,
                     "month"
                 );
-
-                classWorkingWithForm.start();
 
             } else {
                 const navFooterBackBtnPrompt = this.navFooter.querySelector(".nav-footer__content-back-btn-prompt");
@@ -61,7 +61,7 @@ export class NavFooter {
     addEventPressed_Blcoks() {
         /* Добавляет события нажатия для блоков.  */
 
-        this.navFooterBtnAddNew.addEventListener("click", () => { this.pressedBtnAddNew(); });
+        this.navFooterBtnAddNew.addEventListener("click", this.pressedBtnAddNew);
     }
 };
 
