@@ -31,14 +31,10 @@ body {
 @import "blocks/form";
 
 
-/* SEARCH-FORM */
-@import "blocks/search";
-
-
 /* COMPONENT NOTICE and LIVE SEARCH */
 @import "component/calendar";
 @import "component/notice";
-@import "component/live_search";
+@import "component/search";
 
 
 /* NAV-HEADER */
@@ -55,7 +51,3 @@ body {
 
 /* NAV-FOOTER */
 @import "blocks/nav_footer";
-
-
-/* ADDING-ENTRY */
-@import "blocks/adding_entry";

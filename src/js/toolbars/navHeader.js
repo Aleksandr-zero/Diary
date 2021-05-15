@@ -12,21 +12,21 @@ import {
 } from "../constants/constants.js";
 
 import {
-    GenerationAppMonth,
-    GenerationAppMonth_CreateNotes,
+    AppMonth,
+    AppMonth_CreateNotes,
 } from "../app/appMonth.js";
 
-import { GenerationAppDay } from "../app/appDay.js";
+import { AppDay } from "../app/appDay.js";
 
 
-export default class NavHeader {
+export class NavHeader {
     /*
     Класс реализующий функциональность верхней панели инструментов (связано с датами).
     */
 
     constructor() {
-        this.classGenerationAppMonth = new GenerationAppMonth(false);
-        this.classGenerationAppMonth_CreateNotes = new GenerationAppMonth_CreateNotes();
+        this.classAppMonth = new AppMonth(false);
+        this.classAppMonth_CreateNotes = new AppMonth_CreateNotes();
 
         this.navHeader = document.querySelector("#nav-header");
 
@@ -78,7 +78,7 @@ export default class NavHeader {
     pressedBtnSwitchingApp() {
         /* При клике меняет приложение.  */
 
-        const classGenerationAppDay = new GenerationAppDay();
+        const classGenerationAppDay = new AppDay();
 
         this.btnsHeaderSwitchingApp.forEach((btnSwitch) => {
             if (btnSwitch.classList.contains("nav-header-btn-swicth-active")) {
@@ -104,8 +104,8 @@ export default class NavHeader {
             setTimeout(() => {
                 currentApp.remove();
 
-                this.classGenerationAppMonth.render();
-                this.classGenerationAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
+                this.classAppMonth.render();
+                this.classAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
 
                 classGenerationAppDay.blocksBtnsHeaderMonth();
                 classGenerationAppDay.hides_appearsBlock_SectionDays();
@@ -152,11 +152,11 @@ export default class NavHeader {
         
         setTimeout(() => {
             this.app.remove();
-            this.classGenerationAppMonth.render();
+            this.classAppMonth.render();
 
             this.app = document.querySelector(".app-month");
 
-            this.classGenerationAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
+            this.classAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
 
         }, TIMEOUT * 1.25);
     }

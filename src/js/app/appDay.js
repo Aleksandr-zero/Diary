@@ -20,17 +20,17 @@ import {
 } from "../constants/constants.js";
 
 import {
-    GenerationAppMonth,
-    GenerationAppMonth_CreateNotes
+    AppMonth,
+    AppMonth_CreateNotes
 } from "./appMonth.js";
 
-import { WorkingWithForm } from "../toolbars/form.js";
+import { WorkingWithForm } from "../commonTools/form.js";
 import { NavFooter } from "../toolbars/navFooter.js";
 
 import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
 
 
-export class GenerationAppDay {
+export class AppDay {
     /*
     Класс, генерирующий приложение Day и его составные части.
     */
@@ -38,7 +38,7 @@ export class GenerationAppDay {
     constructor() {
         this.appWrapper = document.querySelector(".wrapper-app")
 
-        this.classGenerationAppMonth_CreateNotes = new GenerationAppMonth_CreateNotes();
+        this.classAppMonth_CreateNotes = new AppMonth_CreateNotes();
         this.classWorkingWithForm = new WorkingWithForm();
 
         this.formAddNew = document.querySelector(".calendar__form");
@@ -265,12 +265,12 @@ export class GenerationAppDay {
             this.appDay.remove();
             this.hides_appearsBlock_SectionDays();
 
-            const classGenerationAppMonth = new GenerationAppMonth(false);
-            classGenerationAppMonth.render();
+            const classAppMonth = new AppMonth(false);
+            classAppMonth.render();
 
             this.appMonth = document.querySelector(".app-month");
 
-            this.classGenerationAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
+            this.classAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
 
             this.blocksBtnsHeaderMonth();
         }, TIMEOUT * 1.25);
@@ -485,7 +485,7 @@ export class GenerationAppDay {
 
         if (notesForSelectedDay) {
             notesForSelectedDay.forEach((noteData) => {
-                new GenerationAppDay_CreateNote(this.appDayNoteItems, this.currentBlockDay).createNote_AppDay(noteData);
+                new AppDay_CreateNote(this.appDayNoteItems, this.currentBlockDay).createNote_AppDay(noteData);
             });
         };
     }
@@ -520,7 +520,7 @@ export class GenerationAppDay {
 };
 
 
-export class GenerationAppDay_CreateNote {
+export class AppDay_CreateNote {
     /*
     Класс реализующий функционал создания заметки для приложения Day.
     */
@@ -561,7 +561,7 @@ export class GenerationAppDay_CreateNote {
         `);
 
         btnEditNote.addEventListener("click", () => {
-            new GenerationAppDay().pressedBtnEdit(this.pressedDayMonth);
+            new AppDay().pressedBtnEdit(this.pressedDayMonth);
         });
 
         btnEditNote_Wrapper.append(btnEditNote);
@@ -582,7 +582,7 @@ export class GenerationAppDay_CreateNote {
         btnCompletedNote.addEventListener("click", () => {
             btnCompletedNote.classList.add("note-day-btn-completed-active");
 
-            new GenerationAppDay().pressedBtnCompleted_Or_BtnDelete(
+            new AppDay().pressedBtnCompleted_Or_BtnDelete(
                 "completed",
                 this.pressedDayMonth,
                 document.querySelector(".app-day__content")
@@ -605,7 +605,7 @@ export class GenerationAppDay_CreateNote {
         btnDeleteNote.setAttribute("role", "button");
 
         btnDeleteNote.addEventListener("click", () => {
-            new GenerationAppDay().pressedBtnCompleted_Or_BtnDelete(
+            new AppDay().pressedBtnCompleted_Or_BtnDelete(
                 "delete",
                 this.pressedDayMonth,
                 document.querySelector(".app-day__content")

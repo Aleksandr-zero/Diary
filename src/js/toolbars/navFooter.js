@@ -12,9 +12,9 @@ import {
 
 } from "../constants/constants.js";
 
-import { GenerationAppMonth } from "../app/appMonth.js";
+import { AppMonth } from "../app/appMonth.js";
 
-import { WorkingWithForm } from "./form.js"
+import { WorkingWithForm } from "../commonTools/form.js"
 
 import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
 
@@ -25,7 +25,7 @@ export class NavFooter {
     */
 
     constructor() {
-        this.classGenerationAppMonth = new GenerationAppMonth(false);
+        this.classAppMonth = new AppMonth(false);
         this.classWorkingWithForm = new WorkingWithForm();
 
         this.navFooter = document.querySelector("#nav-footer");;
@@ -72,7 +72,7 @@ export class NavFooter_CreateNote {
     */
 
     constructor(activeItemBlockApp) {
-        this.classGenerationAppMonth = new GenerationAppMonth(false);
+        this.classAppMonth = new AppMonth(false);
 
         this.activeItemBlockApp = activeItemBlockApp;
     }
@@ -103,7 +103,7 @@ export class NavFooter_CreateNote {
         const dayPressedItemAppMonth = +(this.activeItemBlockApp.querySelector(".app-month__content-item-day").innerHTML);
         const numberDay_Month_Note = NOTES_DATA[this.activeItemBlockApp.dataset.month][dayPressedItemAppMonth];
 
-        const note = this.classGenerationAppMonth.createNote_ForItemBlockApp(
+        const note = this.classAppMonth.createNote_ForItemBlockApp(
             this.noteData = numberDay_Month_Note[numberDay_Month_Note.length - 1]["note"]
         );
 
@@ -115,7 +115,7 @@ export class NavFooter_CreateNote {
             this.note = note
         );
 
-        this.classGenerationAppMonth.measuresWidthBlock_NoteApp(
+        this.classAppMonth.measuresWidthBlock_NoteApp(
             this.note = note
         );
 
@@ -140,7 +140,7 @@ export class NavFooter_CreateNote {
             this.numberNotes = numberNotes
         );
 
-        const counter = this.classGenerationAppMonth.createNotesCounter(
+        const counter = this.classAppMonth.createNotesCounter(
             this.numberNotes = numberNotes
         );
 

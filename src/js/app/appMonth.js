@@ -9,15 +9,15 @@ import {
     ARR_MONTHS,
 
 } from "../constants/constants.js";
-import { GenerationAppDay } from "./appDay.js";
+import { AppDay } from "./appDay.js";
 
 import { NavFooter } from "../toolbars/navFooter.js";
-import { WorkingWithForm } from "../toolbars/form.js";
+import { WorkingWithForm } from "../commonTools/form.js"
 
 import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
 
 
-export class GenerationAppMonth {
+export class AppMonth {
     /* 
     Класс генерирующий основной блок приложения и его составные части.
     (генерирует месяц).
@@ -276,7 +276,7 @@ export class GenerationAppMonth {
     renderBlockApp() {
         /* Создаёт главный блок - appMonth.  */
 
-        this.classGenerationAppDay = new GenerationAppDay();
+        this.classGenerationAppDay = new AppDay();
 
         this.checksAppNeedsCreated_FirstLaunch(
             this.forciblyCreate = true
@@ -382,7 +382,7 @@ export class GenerationAppMonth {
 };
 
 
-export class GenerationAppMonth_CreateNotes extends GenerationAppMonth {
+export class AppMonth_CreateNotes extends AppMonth {
     /*
     Класс расширяющий функционал класса - GenerationAppMonth. Создание заметок при смене месяца или его
     генераии.
@@ -490,37 +490,47 @@ class ComponentContextMenu_AppMonth {
                     return;
                 };
 
-                if (event.type === "contextmenu") {
-                    this.lastPressedDay.removeAttribute("style");
-                    this.lastPressedDay = null;
+                if (event.type === "contextmenu" || event.keyCode === 27) {
+                    setTimeout(() => {
+                        this.lastPressedDay.removeAttribute("style");
+                        this.lastPressedDay = null;
+                    }, TIMEOUT * 1.1);
                 };
 
                 this.deleteContextMenu();
-                document.removeEventListener("click", this.addEventClick_InactiveZoneContextMenu);
-                document.removeEventListener("contextmenu", this.addEventClick_InactiveZoneContextMenu);
-
+                this.removeEventsDocument();
                 this.menuState = 0;
             };
         };
+    }
+
+    // Вспомогательные методы.
+    removeEventsDocument() {
+        document.removeEventListener("click", this.addEventClick_InactiveZoneContextMenu);
+        document.removeEventListener("contextmenu", this.addEventClick_InactiveZoneContextMenu);
+        document.removeEventListener("keyup", this.addEventClick_InactiveZoneContextMenu);
     }
 
     // Отвечают за добавления событий и их обработчиков
     pressedBtnOpenDay() {
         /* Переключает приложение Month на Day.  */
 
-        new GenerationAppDay().pressedAppMonthItemDay();
+        new AppDay().pressedAppMonthItemDay();
         this.deleteContextMenu();
+
+        this.removeEventsDocument();
     }
 
     pressedBtnCreateNote() {
         /* Открывает окно создание заметки.  */
 
+        this.deleteContextMenu();
+        this.removeEventsDocument();
+
         this.classWorkingWithForm.start(
             event.target.closest(".app-month__content-item"),
             "month"
         );
-
-        this.deleteContextMenu();
     }
 
     // Отвечают за генерарацию компонента.
@@ -534,6 +544,7 @@ class ComponentContextMenu_AppMonth {
 
         document.addEventListener("click", this.addEventClick_InactiveZoneContextMenu);
         document.addEventListener("contextmenu", this.addEventClick_InactiveZoneContextMenu);
+        document.addEventListener("keyup", this.addEventClick_InactiveZoneContextMenu);
 
         this.backContextMenu.insertAdjacentHTML("beforeend", `
             <div class="app-month__content-item-context-menu-back-btns">

@@ -8,6 +8,7 @@ const include           = require('gulp-file-include');
 const del               = require('del');
 const concat            = require('gulp-concat');
 const htmlmin           = require("gulp-htmlmin");
+const dom               = require('gulp-dom');
 const imagemin          = require("gulp-imagemin");
 const webpack			= require("webpack-stream");
 const sync              = require('browser-sync').create();
@@ -25,6 +26,9 @@ const htmlBuild =() => {
 	return src('src/**.html')
 		.pipe(include({
             prefix: '@@'
+        }))
+        .pipe(dom(function() {
+            this.querySelector('script').removeAttribute("type");
         }))
         .pipe(htmlmin({
         	collapseWhitespace: true,

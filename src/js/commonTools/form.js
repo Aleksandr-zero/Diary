@@ -6,9 +6,9 @@ import {
 
 import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
 
-import { NavFooter_CreateNote } from "./navFooter.js";
+import { NavFooter_CreateNote } from "../toolbars/navFooter.js";
 
-import { GenerationAppDay_CreateNote } from "../app/appDay.js";
+import { AppDay_CreateNote } from "../app/appDay.js";
 
 
 export const saveDataNote_NOTES_DATA = (activeItemBlockApp, receivedDataFromForm, locationCreateNote) => {
@@ -23,7 +23,7 @@ export const saveDataNote_NOTES_DATA = (activeItemBlockApp, receivedDataFromForm
 	let time;
 
 	if (new Date().getMinutes() <= 9) {
-		time = `0${new Date().getMinutes()}`;
+		time = `${new Date().getHours()}:0${new Date().getMinutes()}`;
 	} else {
 		time = `${new Date().getHours()}:${new Date().getMinutes()}`;
 	};
@@ -45,7 +45,7 @@ export const saveDataNote_NOTES_DATA = (activeItemBlockApp, receivedDataFromForm
 	} else if (locationCreateNote === "day") {
 		const lengthDays = NOTES_DATA[activeItemBlockApp.dataset.month][numberDay].length;
 
-		new GenerationAppDay_CreateNote(document.querySelector(".app-day__content-items-notes-day"), activeItemBlockApp)
+		new AppDay_CreateNote(document.querySelector(".app-day__content-items-notes-day"), activeItemBlockApp)
 				.createNote_AppDay(
 			NOTES_DATA[activeItemBlockApp.dataset.month][numberDay][lengthDays - 1]
 		);

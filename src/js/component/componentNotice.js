@@ -9,7 +9,9 @@ import {
     ARR_MONTHS,
 
 } from "../constants/constants.js";
-import { GenerationAppDay } from "../app/appDay.js";
+import { AppDay } from "../app/appDay.js";
+
+import { addCss_Block } from "../commonTools/generationComponent.js";
 
 
 export const add_DeleteActiveClass_BtnNotice = () => {
@@ -27,7 +29,7 @@ export const add_DeleteActiveClass_BtnNotice = () => {
 };
 
 
-export class GenerationComponentNotice {
+export class ComponentNotice {
     /*
     Отвечает за генерацию заметок в секции уведомление на сегодняшний день.
     */
@@ -59,22 +61,6 @@ export class GenerationComponentNotice {
         };
 	}
 
-    // Вспомогательные методы
-    addCss_Block(block) {
-        /* Добавляет стили для плавной анимации поялвния блока.  */
-
-        block.style.cssText = ` 
-            visibility: hidden;
-            opacity: 0;
-        `;
-
-        setTimeout(() => {
-            block.style.cssText = ` 
-                visibility: visible;
-                opacity: 1;
-            `;
-        }, 0);
-    }
 
     // Отвечают за добавление событий.
     addEventPressed_BtnNotice() {
@@ -116,8 +102,8 @@ export class GenerationComponentNotice {
             </div>
         `);
 
-        this.addCss_Block(
-            this.block = appNotNotes_Content
+        addCss_Block(
+            appNotNotes_Content
         );
 
         this.backBtnNotice.append(appNotNotes_Content);
@@ -138,8 +124,8 @@ export class GenerationComponentNotice {
             <h4 style="text-align: center;" class="notice__content-back-notice-title">Notes for today...</h4>
         `);
 
-        this.addCss_Block(
-            this.block = this.componentNoticeContent
+        addCss_Block(
+            this.componentNoticeContent
         );
 
         this.backBtnNotice.append(this.componentNoticeContent);
