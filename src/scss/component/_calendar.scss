@@ -1,0 +1,111 @@
+.calendar {
+	position: absolute;
+	left: -15px;
+	top: 55px;
+	width: 240px;
+	height: 170px;
+	z-index: 20;
+
+	background-color: $white-color;
+	box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
+
+	border-radius: 15px;
+
+	transition: visibility $animate * 1.5, opacity $animate * 1.5;
+
+	&__content {
+		width: 100%;
+		height: 100%;
+		padding: 10px;
+		position: relative;
+
+		&-title {
+			color: $color-counter-notes;
+			text-align: center;
+
+			transition: opacity $animate;
+
+			&.calendar-title-switching {
+				opacity: 0;
+			}
+		}
+
+		&-items {
+			display: grid;
+			grid-template-columns: repeat(7, auto);
+    		grid-template-rows: repeat(5, 20px);
+    		grid-gap: 1px;
+    		margin-top: 10px;
+
+    		transition: opacity $animate;
+
+    		animation: emergence-component $animate;
+
+    		&.calendar-items-day-switching {
+    			opacity: 0;
+    		}
+		}
+
+		&-item {
+			display: flex;
+			justify-content: center;
+			border-radius: 50%;
+
+			&.calendar__content-item-active {
+
+				.calendar__content-item-title {
+					color: $color-counter-notes;
+					border-bottom: 2px solid $color-counter-notes;
+				}
+			}
+
+			&-title {
+				color: $color-text-section-days;
+			}
+		}
+
+		&-back-btn-switch {
+			position: absolute;
+			right: 16px;
+			bottom: 10px;
+			display: flex;
+		}
+
+		&-btn-switch {
+			display: flex;
+
+			&.calendar-btn-switch-right {
+				margin-left: 12px;
+
+				svg {
+					transform: rotate(180deg);
+				}
+			}
+
+			svg {
+				path {
+					transition: fill $animate;
+				}
+			}
+
+			&:hover {
+
+				svg {
+					path {
+						fill: $color-btn;
+					}
+				}
+			}
+		}
+	}
+
+	@keyframes emergence-component {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+}

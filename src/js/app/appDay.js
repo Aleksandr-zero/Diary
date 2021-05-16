@@ -41,8 +41,8 @@ export class AppDay {
         this.classAppMonth_CreateNotes = new AppMonth_CreateNotes();
         this.classWorkingWithForm = new WorkingWithForm();
 
-        this.formAddNew = document.querySelector(".calendar__form");
-        this.formAddNew_BtnAdd = this.formAddNew.querySelector(".calendar__form-content-back-btn");
+        this.formAddNew = document.querySelector(".diary__form");
+        this.formAddNew_BtnAdd = this.formAddNew.querySelector(".diary__form-content-back-btn");
 
         this.appDay = document.createElement("div");
         this.appDayContent = document.createElement("div");
@@ -52,6 +52,7 @@ export class AppDay {
         this.formBtnAdd_EditNote;
 
         this.currentBlockDay;
+        this.pressedDayNumber;
 
         this.pressedFormBtnAdd = () => {
             /* Перезаписывает данные заметки.  */
@@ -59,7 +60,7 @@ export class AppDay {
             const inputSubjectValue = this.formAddNew.querySelector("input").value;
             const contentTextAreaValue = this.formAddNew.querySelector("textarea").value;
             let btnLevelNoteActive_Value;
-            const btnLevelNoteActive = this.formAddNew.querySelector(".calendar-form-btn-level-active");
+            const btnLevelNoteActive = this.formAddNew.querySelector(".diary-form-btn-level-active");
 
             if (btnLevelNoteActive) {
                 btnLevelNoteActive_Value = btnLevelNoteActive.dataset.importance
@@ -77,13 +78,9 @@ export class AppDay {
 
             this.formAddNew_BtnAdd.removeEventListener("click", this.pressedFormBtnAdd);
             this.closeFormAddNew();
-        }
-
-        this.pressedBtnFooterAddNewNote = () => {
-            /* При нажатии открывает форму добавление новой заметки>  */
-            console.log(event.currentTarget);
-        }
+        };
     }
+
 
     // Вспомогательные методы.
     getSetAttribute_BlockDay(blockDay) {
@@ -178,6 +175,7 @@ export class AppDay {
         this.pressedNote.querySelector(".app-day__content-note-day-time").innerHTML = `${new Date().getHours()}:${new Date().getMinutes()}`;
     }
 
+
     // Отвечают за добавления событий и их обработчиков.
     pressedAppMonthItemDay() {
         /* При клике генерирует приложение - день. */
@@ -192,6 +190,7 @@ export class AppDay {
         this.blocksBtnsHeaderMonth();
 
         this.currentBlockDay = event.target.closest(".app-month__content-item");
+        this.pressedDayNumber = this.currentBlockDay.dataset.day;
 
         setTimeout(() => {
             this.appMonth.remove();
@@ -205,7 +204,7 @@ export class AppDay {
         this.formBtnAdd_AddNote = false;
         this.formBtnAdd_EditNote = true;
 
-        this.formAddNew.classList.add("calendar-form-active");
+        this.formAddNew.classList.add("diary-form-active");
         this.formAddNew_BtnAdd.addEventListener("click", this.pressedFormBtnAdd);
     }
 
@@ -224,16 +223,16 @@ export class AppDay {
     addCurrentDataNote_ToForm() {
         /* Добавляет текущие данные для редактирование.  */
 
-        const inputSubject = this.formAddNew.querySelector(".calendar__form-content-back-input");
-        const contentTextArea = this.formAddNew.querySelector(".calendar__form-content-back-textarea");
-        const btnsLevelNote = this.formAddNew.querySelectorAll(".calendar__form-content-back-btn-level");
+        const inputSubject = this.formAddNew.querySelector(".diary__form-content-back-input");
+        const contentTextArea = this.formAddNew.querySelector(".diary__form-content-back-textarea");
+        const btnsLevelNote = this.formAddNew.querySelectorAll(".diary__form-content-back-btn-level");
 
         inputSubject.value = `${this.dataPressedNote["subject"]}`;
         contentTextArea.value = `${this.dataPressedNote["content"]}`;
 
         btnsLevelNote.forEach((btnLevel) => {
             if (this.dataPressedNote["importance"] == btnLevel.dataset.importance) {
-                btnLevel.classList.add("calendar-form-btn-level-active");
+                btnLevel.classList.add("diary-form-btn-level-active");
             };
         });
     }
@@ -241,13 +240,13 @@ export class AppDay {
     closeFormAddNew() {
         /* Зыкрывает форму и чищет в ней поля. */
 
-        this.formAddNew.classList.remove("calendar-form-active");
+        this.formAddNew.classList.remove("diary-form-active");
 
         setTimeout(() => {
             this.formAddNew.querySelector("input").value = "";
             this.formAddNew.querySelector("textarea").value = "";
-            if (this.formAddNew.querySelector(".calendar-form-btn-level-active")) {
-                this.formAddNew.querySelector(".calendar-form-btn-level-active").classList.remove("calendar-form-btn-level-active");
+            if (this.formAddNew.querySelector(".diary-form-btn-level-active")) {
+                this.formAddNew.querySelector(".diary-form-btn-level-active").classList.remove("diary-form-btn-level-active");
             };
         }, TIMEOUT * 1.25);
     }
@@ -276,7 +275,7 @@ export class AppDay {
         }, TIMEOUT * 1.25);
     }
 
-    pressedBtnSwicthVisualContent() {
+    pressedBtnSwitchVisualContent() {
         /* Переключает визуальное окружение заметок  */
 
         const lengthClassCurrentTarget = event.currentTarget.classList[0].split("-").length;
@@ -371,6 +370,7 @@ export class AppDay {
         add_DeleteActiveClass_BtnNotice();
     }
 
+
     // Отвечают за генерацию приложения и его составных частей.
     createTitle_AppDay() {
         /* Создаёт заголовок приложения  */
@@ -438,7 +438,7 @@ export class AppDay {
                 0h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6z"/>
             </svg>
         `);
-        btnSwicthVisualContentGrid.addEventListener("click", () => { this.pressedBtnSwicthVisualContent(); });
+        btnSwicthVisualContentGrid.addEventListener("click", () => { this.pressedBtnSwitchVisualContent(); });
 
         const btnSwicthVisualContentPillar = document.createElement("a");
         btnSwicthVisualContentPillar.setAttribute("class", "app-day__content-note-day-btn-switch-pillar");
@@ -449,7 +449,7 @@ export class AppDay {
                 5h-2v2h2v-2zm2 7h20v-2h-20v2zm0 10h20v-2h-20v2zm0-15h20v-2h-20v2zm0 10h20v-2h-20v2z"/>
             </svg>
         `);
-        btnSwicthVisualContentPillar.addEventListener("click", () => { this.pressedBtnSwicthVisualContent(); });
+        btnSwicthVisualContentPillar.addEventListener("click", () => { this.pressedBtnSwitchVisualContent(); });
 
         backBtnsSwitchVisualContent.append(btnSwicthVisualContentGrid, btnSwicthVisualContentPillar);
 

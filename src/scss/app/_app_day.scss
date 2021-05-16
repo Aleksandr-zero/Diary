@@ -8,6 +8,43 @@
             color: $color-text-section-days;
             text-align: center;
             font-weight: 500;
+            transition: all $animate * 1.25;
+
+            &.app-day-title-swicth {
+                opacity: 0;
+            }
+        }
+
+        &-btn-swicth {
+            display: flex;
+            position: absolute;
+            top: 11px;
+
+            &.app-day-btn-swicth-left {
+                left: 280px;
+            }
+
+            &.app-day-btn-swicth-right {
+                right: 280px;
+
+                svg {
+                    transform: rotate(180deg);
+                }
+            }
+
+            svg {
+                path {
+                    transition: fill $animate;
+                }
+            }
+
+            &:hover {
+                svg {
+                    path {
+                        fill: $color-btn;
+                    }
+                }
+            }
         }
 
         &-items-notes-day {

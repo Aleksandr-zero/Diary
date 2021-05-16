@@ -48,7 +48,7 @@ export class ComponentSearch {
     // Вспомогательные методы.
     getValueInputSearch() {
         /* Получает значение из поля ввода.  */
-        this.valueInputSearch = this.inputSearch.value.toLowerCase();
+        this.valueInputSearch = this.inputSearch.value.toLowerCase().trim();
     }
 
     getAllFoundNotes() {
@@ -63,8 +63,8 @@ export class ComponentSearch {
                 days.forEach((item) => {
                     const note = item['note'];
 
-                    if ( note[0]["subject"].toLowerCase() == this.valueInputSearch ||
-                         note[1]["content"].toLowerCase() == this.valueInputSearch ) {
+                    if ( note[0]["subject"].toLowerCase().trim() == this.valueInputSearch ||
+                         note[1]["content"].toLowerCase().trim() == this.valueInputSearch ) {
                         this.foundNotes.push(item);
                     };
                 });
@@ -80,7 +80,7 @@ export class ComponentSearch {
                 transition: all ${TIMEOUT * 4};
                 opacity: 0;
             `;
-        }, 3000)
+        }, 3000);
 
         setTimeout(() => {
             element.remove();
@@ -147,7 +147,7 @@ export class ComponentSearch {
         /* Создаёт блок где указывается, что заметок не найдено.  */
 
         const backContentResult = document.createElement("div");
-        backContentResult.setAttribute("class", "search__content-result-search");
+        backContentResult.setAttribute("class", "search__content-result-search search-not-result-search");
 
         backContentResult.insertAdjacentHTML("beforeend", `
             <h4 class="search__content-result-search-title">According to your request: "<span>${this.valueInputSearch}</span>", nothing was found</h4>

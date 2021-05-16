@@ -105,6 +105,7 @@
             position: absolute;
             width: 100%;
             top: 40px;
+            z-index: 20;
 
             display: flex;
             justify-content: center;
@@ -114,8 +115,16 @@
             background-color: $color-back-component-search;
             border-radius: 15px;
             color: $white-color;
+            box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.125);
 
             transition: opacity $animate;
+
+            &.search-not-result-search {
+
+                .search__content-result-search-title {
+                    font-size: 14px;
+                }
+            }
 
             &-title {
                 font-weight: 500;

@@ -30,8 +30,8 @@ export const saveDataNote_NOTES_DATA = (activeItemBlockApp, receivedDataFromForm
 
 	NOTES_DATA[activeItemBlockApp.dataset.month][numberDay].push({
 		note: [
-			{"subject": `${receivedDataFromForm['subject']}`},
-			{"content": `${receivedDataFromForm['content']}`},
+			{"subject": `${receivedDataFromForm['subject'].trim()}`},
+			{"content": `${receivedDataFromForm['content'].trim()}`},
 			{"importance": `${receivedDataFromForm['importance']}`},
 			{"month": activeItemBlockApp.dataset.month},
 			{"number_day_month": numberDay},
@@ -69,11 +69,11 @@ export class WorkingWithForm {
     */
 
 	constructor() {
-		this.form = document.querySelector(".calendar__form");
+		this.form = document.querySelector(".diary__form");
 
-		this.form_BtnAdd = this.form.querySelector(".calendar__form-content-back-btn");
-        this.form_Inputs = this.form.querySelectorAll(".calendar-form-input");
-        this.form_BtnsLevel = this.form.querySelectorAll(".calendar__form-content-back-btn-level");
+		this.form_BtnAdd = this.form.querySelector(".diary__form-content-back-btn");
+        this.form_Inputs = this.form.querySelectorAll(".diary-form-input");
+        this.form_BtnsLevel = this.form.querySelectorAll(".diary__form-content-back-btn-level");
 
 		this.receivedDataFromForm = {
             "subject": "",
@@ -119,12 +119,12 @@ export class WorkingWithForm {
 
         this.form_Inputs.forEach((input) => {
             input.value = "";
-            input.classList.remove("calendar-form-input-lack-text");
+            input.classList.remove("diary-form-input-lack-text");
         });
 
         this.form_BtnsLevel.forEach((btnLevel) => {
-            if (btnLevel.classList.contains("calendar-form-btn-level-active")) {
-                btnLevel.classList.remove("calendar-form-btn-level-active");
+            if (btnLevel.classList.contains("diary-form-btn-level-active")) {
+                btnLevel.classList.remove("diary-form-btn-level-active");
             };
         });
 
@@ -136,7 +136,7 @@ export class WorkingWithForm {
     closeFormAddNew() {
         /* Закрывает форму и очищает в ней поля.  */
 
-        this.form.classList.remove("calendar-form-active");
+        this.form.classList.remove("diary-form-active");
 
         setTimeout(() => {
             this.cleansUpDataForm();
@@ -166,7 +166,7 @@ export class WorkingWithForm {
         /* Добавления события на форму - при нажатии на неактивную зону, форма закрывается.  */
 
         this.form.addEventListener("click", () => {
-            if (!event.target.closest(".calendar__form-content")) {
+            if (!event.target.closest(".diary__form-content")) {
                 this.closeFormAddNew();
                 this.form_BtnAdd.removeEventListener("click", this.pressedFormBtnAdd);
             };
@@ -180,26 +180,26 @@ export class WorkingWithForm {
         */
 
         this.form_BtnsLevel.forEach((btnLevel) => {
-            if (btnLevel.classList.contains("calendar-form-btn-level-active")) {
-                btnLevel.classList.remove("calendar-form-btn-level-active");
+            if (btnLevel.classList.contains("diary-form-btn-level-active")) {
+                btnLevel.classList.remove("diary-form-btn-level-active");
             };
         });
         
         this.receivedDataFromForm["importance"] = event.currentTarget.dataset.importance;
 
-        event.currentTarget.classList.add("calendar-form-btn-level-active");
+        event.currentTarget.classList.add("diary-form-btn-level-active");
     }
 
     checksFieldsForValues() {
     	/* Проверяет наличие значений в полях формы.  */
 
     	if ( !this.form_Inputs[0].value && !this.form_Inputs[1].value ) {
-    		this.form_Inputs[0].classList.add("calendar-form-input-lack-text");
-    		this.form_Inputs[1].classList.add("calendar-form-input-lack-text");
+    		this.form_Inputs[0].classList.add("diary-form-input-lack-text");
+    		this.form_Inputs[1].classList.add("diary-form-input-lack-text");
 
     		setTimeout(() => {
-    			this.form_Inputs[0].classList.remove("calendar-form-input-lack-text");
-    			this.form_Inputs[1].classList.remove("calendar-form-input-lack-text");
+    			this.form_Inputs[0].classList.remove("diary-form-input-lack-text");
+    			this.form_Inputs[1].classList.remove("diary-form-input-lack-text");
     		}, 2000)
 
     		return false;
@@ -213,7 +213,7 @@ export class WorkingWithForm {
 		this.selectedDay = selectedDay;
 		this.locationCreateNote = locationCreateNote;
 
-		this.form.classList.add("calendar-form-active");
+		this.form.classList.add("diary-form-active");
 
 		this.addEventPressed_Blcoks();
 		this.addEventPressed_FormInactiveZone();

@@ -101,10 +101,10 @@ export class AppMonth {
         активный класс у блока (app__content-item) удаляется.s
         */
 
-        document.querySelector(".calendar").addEventListener("click", () => {
+        document.querySelector(".diary").addEventListener("click", () => {
 
             // Если форма для заполнения заметки будет открыта (для того чтобы сохранять активный день)
-            if (document.querySelector(".calendar__form").classList.contains("calendar-form-active")) {
+            if (document.querySelector(".diary__form").classList.contains("diary-form-active")) {
                 return;
             };
 

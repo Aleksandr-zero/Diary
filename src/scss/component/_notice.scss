@@ -12,10 +12,15 @@
             top: 0;
             height: 160px;
             width: 240px;
+
             background-color: $color-back-notice;
+            box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
+
             border-radius: 15px;
-            transition: visibility $animate * 1.5, opacity $animate * 1.5;
+            
             padding: 10px 14px 6px 14px;
+
+            transition: visibility $animate * 1.5, opacity $animate * 1.5;
 
             &-title {
                 font-weight: 500;
@@ -105,6 +110,7 @@
             background-color: $color-back-notice;
             border-radius: 15px;
             padding: 10px 14px 6px;
+            box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
 
             transition: visibility $animate * 1.5, opacity $animate * 1.5;
 

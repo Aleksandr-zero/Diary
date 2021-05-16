@@ -18,6 +18,8 @@ import {
 
 import { AppDay } from "../app/appDay.js";
 
+import { ComponentCalendar } from "../component/componentCalendar.js";
+
 
 export class NavHeader {
     /*
@@ -27,10 +29,12 @@ export class NavHeader {
     constructor() {
         this.classAppMonth = new AppMonth(false);
         this.classAppMonth_CreateNotes = new AppMonth_CreateNotes();
+        this.classComponentCalendar = new ComponentCalendar();
 
         this.navHeader = document.querySelector("#nav-header");
 
-        this.btnHeaderDate = this.navHeader.querySelector(".nav-header__content-btn-date > p");
+        this.btnHeaderDate = this.navHeader.querySelector(".nav-header__content-btn-calendar > p");
+        this.btnCalendar = this.navHeader.querySelector(".nav-header__content-btn-calendar");
 
         this.btnHeaderMonthLeft = this.navHeader.querySelector(".nav-header-btn-month-left");
         this.btnHeaderMonthRight = this.navHeader.querySelector(".nav-header-btn-month-right");
@@ -42,6 +46,7 @@ export class NavHeader {
         this.todayIsDay = document.querySelector(".app-month-content-item-current-day");
 
         this.setsCurrentMonth_BtnHeaderDate();
+        this.addEventPressed_BtnCalendar();
         this.addEventBtnHeaderMonts();
         this.addEventBtnsHeader_SwitchingApp();
     }
@@ -75,6 +80,18 @@ export class NavHeader {
         })
     }
 
+    addEventPressed_BtnCalendar() {
+        /* При клике генерирует компонент - Calendar  */
+
+        this.btnCalendar.addEventListener("click", () => { this.pressedBtnCalendar(); });
+    }
+
+    pressedBtnCalendar() {
+        /* Создаёт компонент - calendar.  */
+
+        this.classComponentCalendar.render();
+    }
+
     pressedBtnSwitchingApp() {
         /* При клике меняет приложение.  */
 
@@ -91,16 +108,10 @@ export class NavHeader {
         const currentApp = document.querySelector(`.app-${CURRENT_APP}`);
         currentApp.classList.add("switching-app");
 
+        const pressedAppBtn = event.currentTarget.dataset.appSwitch;
+        changeCurrentApp(pressedAppBtn);
+
         if (CURRENT_APP === "month") {
-            setTimeout(() => {
-
-                currentApp.remove();
-                classGenerationAppDay.render(this.todayIsDay);
-                classGenerationAppDay.blocksBtnsHeaderMonth();
-
-            }, TIMEOUT * 1.25);
-
-        } else if (CURRENT_APP === "day") {
             setTimeout(() => {
                 currentApp.remove();
 
@@ -111,9 +122,15 @@ export class NavHeader {
                 classGenerationAppDay.hides_appearsBlock_SectionDays();
 
             }, TIMEOUT * 1.25);
-        }
 
-        changeCurrentApp(event.currentTarget.dataset.appSwitch);
+        } else if (CURRENT_APP === "day") {
+            setTimeout(() => {
+                currentApp.remove();
+                classGenerationAppDay.render(this.todayIsDay);
+                classGenerationAppDay.blocksBtnsHeaderMonth();
+
+            }, TIMEOUT * 1.25);
+        }
     }
 
     pressedBtnMonth(indexMonth, position) {
@@ -136,7 +153,6 @@ export class NavHeader {
             changeMonth(this.dateMonth)
     
             this.contentBtnMonth.innerHTML = ARR_MONTHS[this.dateMonth];
-    
             this.contentBtnMonth.classList.remove("btn-month-content-active");
 
         }, TIMEOUT / 1.25);
