@@ -44,6 +44,17 @@
                 }
             }
 
+            &:active {
+                background-color: darken($color-border_text, 8%);
+                color: $white-color;
+
+                svg {
+                    path {
+                        fill: $white-color;
+                    }
+                }
+            }
+
             &.nav-btn-calendar-active {
                 background-color: $color-border_text;
                 color: $white-color;

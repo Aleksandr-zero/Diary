@@ -53,12 +53,12 @@ export class AppMonth {
         };
     }
 
-    getDays_In_Month(month, year) {
+    getDays_In_Month(month) {
         /* Возвращает список - количество дней в месяце и название последнего дня этого месяца.  */
 
         return [
-            new Date(year, month + 1, 0).getDate(),
-            ARR_DAYS[new Date(year, month + 1, 0).getDay()],
+            new Date(DATE.getFullYear(), month + 1, 0).getDate(),
+            ARR_DAYS[new Date(DATE.getFullYear(), month + 1, 0).getDay()],
         ];
     }
 
@@ -207,13 +207,11 @@ export class AppMonth {
         /* Записывает дни прошлого месяца.  */
 
         let numberDays_in_LastMonth = this.getDays_In_Month(
-            this.month = DATE_MONTH_CHANGE - 1,
-            this.year = DATE.getFullYear()
+            this.month = DATE_MONTH_CHANGE - 1
         )[0];
 
         let numberDays_in_LastMonth_Title = this.getDays_In_Month(
-            this.month = DATE_MONTH_CHANGE - 1,
-            this.year = DATE.getFullYear()
+            this.month = DATE_MONTH_CHANGE - 1
         )[1];
     
         let start_Of_DayCountdown = numberDays_in_LastMonth - ARR_DAYS.indexOf(numberDays_in_LastMonth_Title);
@@ -237,8 +235,7 @@ export class AppMonth {
         /* Записывает дни текущего месяца.  */
     
         let numberDays_in_CurrentMonth = this.getDays_In_Month(
-            this.month = DATE_MONTH_CHANGE,
-            this.year = DATE.getFullYear()
+            this.month = DATE_MONTH_CHANGE
         )[0];
     
         for (let indexDay = 1; indexDay <= numberDays_in_CurrentMonth; indexDay++) {

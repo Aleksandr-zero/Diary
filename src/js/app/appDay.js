@@ -29,6 +29,11 @@ import { NavFooter } from "../toolbars/navFooter.js";
 
 import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
 
+import {
+    hides_appearsBlock_SectionDays,
+    blocksBtnsHeaderMonth
+} from "../commonTools/generationApp.js";
+
 
 export class AppDay {
     /*
@@ -108,13 +113,6 @@ export class AppDay {
         return ARR_DAYS[new Date(year, month, day).getDay()];
     }
 
-    hides_appearsBlock_SectionDays() {
-        /* Скрывает блок - sectionDay  */
-
-        const sectionDays = document.querySelector(".section-days");
-        sectionDays.classList.toggle("section-days-pass");
-    }
-
     changesButtonsActivity_NavHeader(nextApp) {
         /* Меняет активность кнопки в зависимости какое приложение.  */
 
@@ -135,16 +133,6 @@ export class AppDay {
     findNotes_PressedDay(dataSet) {
         /* Возвращает все найденные заметки на нажатий день.  */
         return NOTES_DATA[dataSet[0]][dataSet[1]];
-    }
-
-    blocksBtnsHeaderMonth() {
-        /* Блокирует кнопки переключатели месяцув.  */
-
-        const navHeader_BtnMonth = document.querySelectorAll(".nav-header__content-btn-month");
-
-        navHeader_BtnMonth.forEach((btnMonth) => {
-            btnMonth.classList.toggle("nav-header-content-btn-month-pass");
-        });
     }
 
     overwritesCurrentDataNoteWithNew(inputValue, textareaInput, btnLevel_Value) {
@@ -187,7 +175,7 @@ export class AppDay {
         this.appMonth = document.querySelector(".app-month");
         this.appMonth.classList.add("switching-app");
 
-        this.blocksBtnsHeaderMonth();
+        blocksBtnsHeaderMonth();
 
         this.currentBlockDay = event.target.closest(".app-month__content-item");
         this.pressedDayNumber = this.currentBlockDay.dataset.day;
@@ -262,7 +250,7 @@ export class AppDay {
 
         setTimeout(() => {
             this.appDay.remove();
-            this.hides_appearsBlock_SectionDays();
+            hides_appearsBlock_SectionDays();
 
             const classAppMonth = new AppMonth(false);
             classAppMonth.render();
@@ -271,7 +259,7 @@ export class AppDay {
 
             this.classAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
 
-            this.blocksBtnsHeaderMonth();
+            blocksBtnsHeaderMonth();
         }, TIMEOUT * 1.25);
     }
 
@@ -514,8 +502,8 @@ export class AppDay {
             this.currentBlockDay = currentBlockDay;
         };
 
-        this.hides_appearsBlock_SectionDays();
         this.renderBlockApp();
+        hides_appearsBlock_SectionDays();
     }
 };
 

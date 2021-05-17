@@ -47,11 +47,19 @@ export class ComponentCalendar {
         };
 	}
 
+	// Вспомогательные методы.
+	getTitle_LastDay_FirstDay() {
+		/* Получает индекс первого дня в указанном месяце.  */
+		const titleFirstDay = ARR_DAYS[new Date(DATE.getFullYear(), this.dateMonth, 0).getDay() + 1]
+		return ARR_DAYS.indexOf(titleFirstDay);
+	} 
+
 	// Отвечают за добавление событий и их обработчиков.
 	pressedBtnSwitchingCalendar(position, indexMonth) {
 		/* Переключает комопнент - calendar.  */
 
 		const titleComponent = this.componentCalendar.querySelector(".calendar__content-title");
+		const sectionDaysCompoentn = this.componentCalendar.querySelector(".calendar__content-section-days");
 
 		if (this.dateMonth == 0 && position === "left") {
             this.dateMonth = 12;
@@ -59,13 +67,16 @@ export class ComponentCalendar {
             this.dateMonth = -1;
         };
     
-       	titleComponent.classList.add("calendar-title-switching");
+       	titleComponent.classList.add("calendar-title_section-days-switching");
+       	sectionDaysCompoentn.classList.add("calendar-title_section-days-switching");
 
         this.dateMonth += indexMonth;
 
 		setTimeout(() => {
-			titleComponent.classList.remove("calendar-title-switching");
+			titleComponent.classList.remove("calendar-title_section-days-switching");
 			titleComponent.innerHTML = ARR_MONTHS[this.dateMonth];
+
+			sectionDaysCompoentn.classList.remove("calendar-title_section-days-switching");
 		}, TIMEOUT);
 
 		this.changeComponentCalendar();
@@ -110,6 +121,21 @@ export class ComponentCalendar {
 		`);
 	}
 
+	createComponentSetcionDays() {
+		/* Создаёт секцию дней.  */
+
+		const blockSectionDays = document.createElement("div");
+		blockSectionDays.setAttribute("class", "calendar__content-section-days");
+
+		ARR_DAYS.forEach((day) => {
+			blockSectionDays.insertAdjacentHTML("beforeend", ` 
+				<h2 class="calendar__content-section-days-title">${day.substring(0, 3)}</h2>
+			`);
+		});
+
+		this.backContentComponent.append(blockSectionDays);
+	}
+
 	createContentItemsDay() {
 		/* Создаёт блок с днями текущего месяца  */
 
@@ -122,21 +148,39 @@ export class ComponentCalendar {
 	createContentItemDays() {
 		/* Создаёт блок с днями текущего месяца  */
 
+		const indexDayOnWhichMonthBegins = this.getTitle_LastDay_FirstDay();
+		let indexDay = 0;
+		let indexDayWrite = 1;
+
 		const numbersDaysCurrentMonth = new Date(2021, this.dateMonth + 1, 0).getDate();
 		const currentTitleComponent = this.componentCalendar.querySelector(".calendar__content-title").innerHTML;
 
-		for (let day = 1; day <= numbersDaysCurrentMonth; day++) {
+		for (let day = 1; day <= numbersDaysCurrentMonth + indexDayOnWhichMonthBegins; day++) {
+
+			if (indexDayOnWhichMonthBegins > indexDay) {
+				this.contentItemsDay.insertAdjacentHTML("beforeend", `
+					<div class="calendar__content-item calendar-item-pass">
+						<h4 class="calendar__content-item-title">Text</h4>
+					</div>
+				`);
+
+				indexDay++;
+				continue;
+			}
+
 			let classDay = `calendar__content-item`;
 
-			if (day == DATE.getDate() && ARR_MONTHS[DATE.getMonth()] == currentTitleComponent) {
-				classDay += " calendar__content-item-active";
+			if (indexDayWrite == DATE.getDate() && ARR_MONTHS[DATE.getMonth()] == currentTitleComponent) {
+				classDay += " calendar-item-active";
 			};
 
 			this.contentItemsDay.insertAdjacentHTML("beforeend", `
 				<div class="${classDay}">
-					<h4 class="calendar__content-item-title">${day}</h4>
+					<h4 class="calendar__content-item-title">${indexDayWrite}</h4>
 				</div>
 			`);
+
+			indexDayWrite++;
 		};
 	}
 
@@ -168,6 +212,7 @@ export class ComponentCalendar {
 
 		this.createBackContentComponent();
 		this.createComponentTitle();
+		this.createComponentSetcionDays();
 		this.createContentItemsDay();
 		this.createContentItemDays();
 		this.createBtnSwitchingCalendar();

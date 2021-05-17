@@ -19,7 +19,25 @@ export class AppYear {
 	Класс реализующий приложение - Year.
     */
 
-	constructor(arg1) {
-		this.arg1 = arg1;
+	constructor() {
+		this.wrapperApp = document.querySelector(".wrapper-app");
+	}
+
+	// Вспомогательные методы.
+
+	// Отвечают за добавление событий и их обработчиков>
+
+	// Отвечают за генерацию приложения.
+	renderBlockApp() {
+		/* Рендерит главный блок и его составные части.  */
+
+		this.wrapperApp.append(this.appYear);
+	}
+
+	render() {
+		this.appYear = document.createElement("div");
+		this.appYear.setAttribute("class", "app app-year");
+
+		this.renderBlockApp();
 	}
 };

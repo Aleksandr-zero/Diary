@@ -15,10 +15,15 @@ import {
     AppMonth,
     AppMonth_CreateNotes,
 } from "../app/appMonth.js";
-
 import { AppDay } from "../app/appDay.js";
+import { AppYear } from "../app/appYear.js";
 
 import { ComponentCalendar } from "../component/componentCalendar.js";
+
+import {
+    hides_appearsBlock_SectionDays,
+    blocksBtnsHeaderMonth
+} from "../commonTools/generationApp.js";
 
 
 export class NavHeader {
@@ -30,6 +35,7 @@ export class NavHeader {
         this.classAppMonth = new AppMonth(false);
         this.classAppMonth_CreateNotes = new AppMonth_CreateNotes();
         this.classComponentCalendar = new ComponentCalendar();
+        this.classAppYear = new AppYear();
 
         this.navHeader = document.querySelector("#nav-header");
 
@@ -108,8 +114,8 @@ export class NavHeader {
         const currentApp = document.querySelector(`.app-${CURRENT_APP}`);
         currentApp.classList.add("switching-app");
 
-        const pressedAppBtn = event.currentTarget.dataset.appSwitch;
-        changeCurrentApp(pressedAppBtn);
+        const pressedAppBtn_DataApp = event.currentTarget.dataset.appSwitch;
+        changeCurrentApp(pressedAppBtn_DataApp);
 
         if (CURRENT_APP === "month") {
             setTimeout(() => {
@@ -118,8 +124,8 @@ export class NavHeader {
                 this.classAppMonth.render();
                 this.classAppMonth_CreateNotes.createAllNote_SpecifiedMonth();
 
-                classGenerationAppDay.blocksBtnsHeaderMonth();
-                classGenerationAppDay.hides_appearsBlock_SectionDays();
+                blocksBtnsHeaderMonth();
+                hides_appearsBlock_SectionDays();
 
             }, TIMEOUT * 1.25);
 
@@ -127,10 +133,20 @@ export class NavHeader {
             setTimeout(() => {
                 currentApp.remove();
                 classGenerationAppDay.render(this.todayIsDay);
-                classGenerationAppDay.blocksBtnsHeaderMonth();
+                blocksBtnsHeaderMonth();
 
             }, TIMEOUT * 1.25);
-        }
+
+        } else if (CURRENT_APP === "year") {
+            setTimeout(() => {
+                currentApp.remove();
+
+                this.classAppYear.render();
+                hides_appearsBlock_SectionDays();
+                blocksBtnsHeaderMonth();
+
+            }, TIMEOUT * 1.25);
+        };
     }
 
     pressedBtnMonth(indexMonth, position) {

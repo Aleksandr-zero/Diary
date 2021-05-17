@@ -1,14 +1,18 @@
 import {
     NOTES_DATA,
+    DATE,
     TIMEOUT,
 
     DATE_MONTH_CHANGE,
+    changeCurrentApp,
 
     ARR_MONTHS
 
 } from "../constants/constants.js";
 
-import { addCss_Block } from "../commonTools/generationComponent.js"
+import { addCss_Block } from "../commonTools/generationComponent.js";
+
+import { AppDay } from "../app/appDay.js";
 
 
 export class ComponentSearch {
@@ -28,16 +32,7 @@ export class ComponentSearch {
             /* При клике на неактивную зону удаляет компонент.  */
 
             if ( !event.target.closest(".search__content-result-search") && !event.target.closest(".search__content-back-input-btn") ) {
-
-                this.resultSearchContent.style.cssText = `
-                    transition: all ${TIMEOUT * 4};
-                    opacity: 0;
-                `;
-
-                setTimeout(() => {
-                    this.resultSearchContent.remove();
-                    this.btnSearch.style.cssText = `pointer-events: auto`;
-                }, 800);
+                this.removeComponent_ResulSearch();
 
                 document.removeEventListener("click", this.addEventClickInactiveZone_ContentSearch);
             };
@@ -51,20 +46,34 @@ export class ComponentSearch {
         this.valueInputSearch = this.inputSearch.value.toLowerCase().trim();
     }
 
+    removeComponent_ResulSearch() {
+        /* Удаляет компонент.  */
+
+        this.resultSearchContent.style.cssText = `
+            transition: all ${TIMEOUT * 4};
+            opacity: 0;
+        `;
+
+        setTimeout(() => {
+            this.resultSearchContent.remove();
+            this.btnSearch.style.cssText = `pointer-events: auto`;
+        }, 800);
+    }
+
     getAllFoundNotes() {
         /* Ищет все заметки в "NOTES_DATA".  */
 
         this.foundNotes = [];
 
-        let currentMonthIndex = ARR_MONTHS.indexOf(ARR_MONTHS[DATE_MONTH_CHANGE]);
+        let currentMonthIndex = ARR_MONTHS.indexOf(ARR_MONTHS[DATE.getMonth()]);
 
         for (currentMonthIndex; currentMonthIndex < ARR_MONTHS.length; currentMonthIndex++) {
             NOTES_DATA[ARR_MONTHS[currentMonthIndex]].forEach((days) => {
                 days.forEach((item) => {
                     const note = item['note'];
 
-                    if ( note[0]["subject"].toLowerCase().trim() == this.valueInputSearch ||
-                         note[1]["content"].toLowerCase().trim() == this.valueInputSearch ) {
+                    if ( note[0]["subject"].toLowerCase().replace(/\s+/g, ' ').trim() == this.valueInputSearch ||
+                         note[1]["content"].toLowerCase().replace(/\s+/g, ' ').trim() == this.valueInputSearch ) {
                         this.foundNotes.push(item);
                     };
                 });
@@ -106,6 +115,32 @@ export class ComponentSearch {
                 this.inputSearch.classList.remove("search-input-active");
             };
         };
+    }
+
+    openAppDay() {
+        /* При клике открывает приложение Day.  */
+
+        const classGenerationAppDay = new AppDay();
+        const pressedBlock = event.currentTarget;
+
+        const currentApp = document.querySelector(".app");
+        currentApp.classList.add("switching-app");
+
+        setTimeout(() => {
+            currentApp.remove();
+
+            classGenerationAppDay.render(pressedBlock);
+        }, TIMEOUT * 1.25);
+
+        const currentBtnSwitch = document.querySelector(".nav-header-btn-swicth-active");
+        currentBtnSwitch.classList.remove("nav-header-btn-swicth-active");
+
+        const nextBtnSwitch = document.querySelector(`.nav-header__content-btn-item-link[data-app-switch="day"]`)
+        nextBtnSwitch.classList.add("nav-header-btn-swicth-active");
+
+        changeCurrentApp("day");
+
+        this.removeComponent_ResulSearch();
     }
 
 
@@ -193,15 +228,25 @@ export class ComponentSearch {
     createFoundNote() {
         /* Создаёт заметку и помещает её в "resultSearchItemsNotes".  */
 
+        let indexLink = 1;
+
         this.foundNotes.forEach((note) => {
+
             this.resultSearchItemsNotes.insertAdjacentHTML("beforeend", `
                 <div class="search__content-result-search-item degree-importance-${note["note"][2]["importance"]}">
-                    <div class="search__content-result-search-item-text">
-                        <p>${note["note"][1]["content"]}</p>
+                    <div class="search__content-result-search-item-link">
+                        <a class="result-search-item-link-${indexLink}" data-day="${note["note"][4]["number_day_month"]}" data-month="${note["note"][3]["month"]}" role="button">
+                            <p>${note["note"][1]["content"]}</p>
+                        </a>
                     </div>
                 </div>
             `);
-        })
+
+            const generationLink = this.resultSearchItemsNotes.querySelector(`.result-search-item-link-${indexLink}`);
+            generationLink.addEventListener("click", () => { this.openAppDay(); });
+            
+            indexLink++;
+        });
     }
 
     renderBlockComponent() {

@@ -1,9 +1,8 @@
 .calendar {
 	position: absolute;
-	left: -15px;
+	left: -20px;
 	top: 55px;
-	width: 240px;
-	height: 170px;
+	width: 250px;
 	z-index: 20;
 
 	background-color: $white-color;
@@ -13,10 +12,14 @@
 
 	transition: visibility $animate * 1.5, opacity $animate * 1.5;
 
+	.calendar-title_section-days-switching {
+		opacity: 0;
+	}
+
 	&__content {
 		width: 100%;
 		height: 100%;
-		padding: 10px;
+		padding: 10px 10px 12px 10px;
 		position: relative;
 
 		&-title {
@@ -24,18 +27,28 @@
 			text-align: center;
 
 			transition: opacity $animate;
+		}
 
-			&.calendar-title-switching {
-				opacity: 0;
+		&-section-days {
+			display: flex;
+			justify-content: space-between;
+			margin-top: 10px;
+
+			transition: opacity $animate;
+
+			&-title {
+				font-size: 11px;
+				display: flex;
+				justify-content: center;
+				color: $color-text-section-days;
 			}
 		}
 
 		&-items {
 			display: grid;
 			grid-template-columns: repeat(7, auto);
-    		grid-template-rows: repeat(5, 20px);
     		grid-gap: 1px;
-    		margin-top: 10px;
+    		margin-top: 6px;
 
     		transition: opacity $animate;
 
@@ -51,11 +64,28 @@
 			justify-content: center;
 			border-radius: 50%;
 
-			&.calendar__content-item-active {
+			&.calendar-item-active {
 
 				.calendar__content-item-title {
 					color: $color-counter-notes;
-					border-bottom: 2px solid $color-counter-notes;
+					position: relative;
+
+					&::after {
+						position: absolute;
+						content: "";
+						bottom: 0;
+						height: 3px;
+						width: 100%;
+						background-color: $color-counter-notes;
+						left: 0;
+					}
+				}
+			}
+
+			&.calendar-item-pass {
+				.calendar__content-item-title {
+					font-size: 0;
+					color: transparent;
 				}
 			}
 
@@ -66,8 +96,8 @@
 
 		&-back-btn-switch {
 			position: absolute;
-			right: 16px;
-			bottom: 10px;
+			right: 20px;
+			top: 18px;
 			display: flex;
 		}
 

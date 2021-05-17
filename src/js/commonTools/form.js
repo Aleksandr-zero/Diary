@@ -30,8 +30,8 @@ export const saveDataNote_NOTES_DATA = (activeItemBlockApp, receivedDataFromForm
 
 	NOTES_DATA[activeItemBlockApp.dataset.month][numberDay].push({
 		note: [
-			{"subject": `${receivedDataFromForm['subject'].trim()}`},
-			{"content": `${receivedDataFromForm['content'].trim()}`},
+			{"subject": `${receivedDataFromForm['subject'].replace(/\s+/g, ' ').trim()}`},
+			{"content": `${receivedDataFromForm['content'].replace(/\s+/g, ' ').trim()}`},
 			{"importance": `${receivedDataFromForm['importance']}`},
 			{"month": activeItemBlockApp.dataset.month},
 			{"number_day_month": numberDay},
