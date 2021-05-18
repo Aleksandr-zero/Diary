@@ -16,7 +16,7 @@ import { AppMonth } from "../app/appMonth.js";
 
 import { WorkingWithForm } from "../commonTools/form.js"
 
-import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
+import { add_DeleteActiveClass_BtnNotice } from "../components/componentNotice.js";
 
 
 export class NavFooter {

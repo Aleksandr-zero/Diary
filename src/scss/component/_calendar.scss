@@ -30,7 +30,6 @@
 		}
 
 		&-section-days {
-			display: flex;
 			justify-content: space-between;
 			margin-top: 10px;
 
@@ -38,8 +37,7 @@
 
 			&-title {
 				font-size: 11px;
-				display: flex;
-				justify-content: center;
+				text-align: center;
 				color: $color-text-section-days;
 			}
 		}
@@ -60,7 +58,6 @@
 		}
 
 		&-item {
-			display: flex;
 			justify-content: center;
 			border-radius: 50%;
 
@@ -98,11 +95,9 @@
 			position: absolute;
 			right: 20px;
 			top: 18px;
-			display: flex;
 		}
 
 		&-btn-switch {
-			display: flex;
 
 			&.calendar-btn-switch-right {
 				margin-left: 12px;

@@ -14,7 +14,7 @@ import { AppDay } from "./appDay.js";
 import { NavFooter } from "../toolbars/navFooter.js";
 import { WorkingWithForm } from "../commonTools/form.js"
 
-import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
+import { add_DeleteActiveClass_BtnNotice } from "../components/componentNotice.js";
 
 
 export class AppMonth {
@@ -26,7 +26,6 @@ export class AppMonth {
     constructor(generationForFirstLaunch) {
 
         this.classComponentContextMenu_AppMonth = new ComponentContextMenu_AppMonth();
-        this.classWorkingWithForm = new WorkingWithForm();
 
         this.generationForFirstLaunch = generationForFirstLaunch;
         this.checksAppNeedsCreated_FirstLaunch();
@@ -182,7 +181,7 @@ export class AppMonth {
         */
 
         let blockAppDay = document.createElement("div");
-        blockAppDay.setAttribute("class", classBlockItem);
+        blockAppDay.setAttribute("class", `${classBlockItem} flex`);
 
         // Для добавления data-атрибута, чтобы при клике на день записывать значение месяца этого дня
         blockAppDay.setAttribute("data-month", dataAttributes["month"]);
@@ -319,9 +318,9 @@ export class AppMonth {
         const note = document.createElement("div");
 
         if (noteData[3]["month"] != ARR_MONTHS[DATE_MONTH_CHANGE]) {
-            note.setAttribute("class", `app-month__content-item-note degree-importance-${noteData[2]["importance"]} note-for-past-or-next`);
+            note.setAttribute("class", `app-month__content-item-note degree-importance-${noteData[2]["importance"]} flex note-for-past-or-next`);
         } else {
-            note.setAttribute("class", `app-month__content-item-note degree-importance-${noteData[2]["importance"]}`);
+            note.setAttribute("class", `app-month__content-item-note degree-importance-${noteData[2]["importance"]} flex`);
         };
 
         const noteTitle = document.createElement("h6");
@@ -351,13 +350,9 @@ export class AppMonth {
         const counter = document.createElement("div");
         counter.setAttribute("class", "app-month__content-item-counter-notes");
 
-        const numberNotesCounter = document.createElement("h4");
-        numberNotesCounter.setAttribute("class", "app-month__content-item-counter-notes-number");
-        numberNotesCounter.insertAdjacentHTML("beforeend", `
-            +${numberNotes}
+        counter.insertAdjacentHTML("beforeend", `
+            <h4 class="app-month__content-item-counter-notes-number flex">+${numberNotes}</h4>
         `);
-
-        counter.append(numberNotesCounter);
 
         return counter;
     }
@@ -503,26 +498,26 @@ class ComponentContextMenu_AppMonth {
 
     // Вспомогательные методы.
     removeEventsDocument() {
-        document.removeEventListener("click", this.addEventClick_InactiveZoneContextMenu);
+        document.removeEventListener("click",       this.addEventClick_InactiveZoneContextMenu);
         document.removeEventListener("contextmenu", this.addEventClick_InactiveZoneContextMenu);
-        document.removeEventListener("keyup", this.addEventClick_InactiveZoneContextMenu);
+        document.removeEventListener("keyup",       this.addEventClick_InactiveZoneContextMenu);
     }
 
     // Отвечают за добавления событий и их обработчиков
     pressedBtnOpenDay() {
         /* Переключает приложение Month на Day.  */
 
+        // this.removeEventsDocument();
+
         new AppDay().pressedAppMonthItemDay();
         this.deleteContextMenu();
-
-        this.removeEventsDocument();
     }
 
     pressedBtnCreateNote() {
         /* Открывает окно создание заметки.  */
 
-        this.deleteContextMenu();
         this.removeEventsDocument();
+        this.deleteContextMenu();
 
         this.classWorkingWithForm.start(
             event.target.closest(".app-month__content-item"),
@@ -539,9 +534,9 @@ class ComponentContextMenu_AppMonth {
         this.backContextMenu = document.createElement("div");
         this.backContextMenu.setAttribute("class", "app-month__content-item-context-menu");
 
-        document.addEventListener("click", this.addEventClick_InactiveZoneContextMenu);
+        document.addEventListener("click",       this.addEventClick_InactiveZoneContextMenu);
         document.addEventListener("contextmenu", this.addEventClick_InactiveZoneContextMenu);
-        document.addEventListener("keyup", this.addEventClick_InactiveZoneContextMenu);
+        document.addEventListener("keyup",       this.addEventClick_InactiveZoneContextMenu);
 
         this.backContextMenu.insertAdjacentHTML("beforeend", `
             <div class="app-month__content-item-context-menu-back-btns">

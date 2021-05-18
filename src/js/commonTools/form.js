@@ -1,15 +1,30 @@
 import {
 	TIMEOUT,
+    DATE,
 
 	NOTES_DATA,
 } from "../constants/constants.js";
 
-import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
+import { add_DeleteActiveClass_BtnNotice } from "../components/componentNotice.js";
 
 import { NavFooter_CreateNote } from "../toolbars/navFooter.js";
 
 import { AppDay_CreateNote } from "../app/appDay.js";
 
+
+export const setsTime_For_Note = () => {
+    /* Устанавливает время для сохранения в NOTES_DATA.  */
+
+    let time;
+
+    if (new Date().getMinutes() <= 9) {
+        time = `${new Date().getHours()}:0${new Date().getMinutes()}`;
+    } else {
+        time = `${new Date().getHours()}:${new Date().getMinutes()}`;
+    };
+
+    return time;
+};
 
 export const saveDataNote_NOTES_DATA = (activeItemBlockApp, receivedDataFromForm, locationCreateNote) => {
 	/* Сохраняет полученные данные о заметке в обьект.  */
@@ -20,13 +35,7 @@ export const saveDataNote_NOTES_DATA = (activeItemBlockApp, receivedDataFromForm
 		NOTES_DATA[activeItemBlockApp.dataset.month][numberDay] = [];
 	};
 
-	let time;
-
-	if (new Date().getMinutes() <= 9) {
-		time = `${new Date().getHours()}:0${new Date().getMinutes()}`;
-	} else {
-		time = `${new Date().getHours()}:${new Date().getMinutes()}`;
-	};
+	const time = setsTime_For_Note();
 
 	NOTES_DATA[activeItemBlockApp.dataset.month][numberDay].push({
 		note: [
@@ -91,6 +100,9 @@ export class WorkingWithForm {
             };
 
             this.form_BtnAdd.removeEventListener("click", this.pressedFormBtnAdd);
+            this.form_BtnsLevel.forEach((btnLevel) => {
+                btnLevel.removeEventListener("click", this.pressedFormBtnLevel);
+            });
 
             this.closeFormAddNew();
 
@@ -99,6 +111,30 @@ export class WorkingWithForm {
 
             saveDataNote_NOTES_DATA(this.selectedDay, this.receivedDataFromForm, this.locationCreateNote);
         };
+
+        this.pressedFormBtnLevel = () => {
+            /*
+            При нажатии кнопки, пользователь выбирает важность занятия своей заметки.
+            Значение записывается в словарь "receivedDataFromForm".
+            */
+
+            if (event.currentTarget.classList.contains("diary-form-btn-level-active")) {
+                event.currentTarget.classList.remove("diary-form-btn-level-active");
+                this.receivedDataFromForm["importance"] = "normal";
+
+                return;
+            };
+
+            this.form_BtnsLevel.forEach((btnLevel) => {
+                if (btnLevel.classList.contains("diary-form-btn-level-active")) {
+                    btnLevel.classList.remove("diary-form-btn-level-active");
+                };
+            });
+            
+            this.receivedDataFromForm["importance"] = event.currentTarget.dataset.importance;
+
+            event.currentTarget.classList.add("diary-form-btn-level-active");
+        }
 	}
 
 	checksForContent_FormInput() {
@@ -158,7 +194,7 @@ export class WorkingWithForm {
         this.form_BtnAdd.addEventListener("click", this.pressedFormBtnAdd);
 
         this.form_BtnsLevel.forEach((btnLevel) => {
-            btnLevel.addEventListener("click", () => { this.pressedFormBtnLevel(); })
+            btnLevel.addEventListener("click", this.pressedFormBtnLevel);
         });
     }
 
@@ -171,23 +207,6 @@ export class WorkingWithForm {
                 this.form_BtnAdd.removeEventListener("click", this.pressedFormBtnAdd);
             };
         });
-    }
-
-    pressedFormBtnLevel() {
-        /*
-        При нажатии кнопки, пользователь выбирает важность занятия своей заметки.
-        Значение записывается в словарь "receivedDataFromForm".
-        */
-
-        this.form_BtnsLevel.forEach((btnLevel) => {
-            if (btnLevel.classList.contains("diary-form-btn-level-active")) {
-                btnLevel.classList.remove("diary-form-btn-level-active");
-            };
-        });
-        
-        this.receivedDataFromForm["importance"] = event.currentTarget.dataset.importance;
-
-        event.currentTarget.classList.add("diary-form-btn-level-active");
     }
 
     checksFieldsForValues() {

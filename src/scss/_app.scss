@@ -1,11 +1,13 @@
 /* APPS */
 
+@import "app/app_year.scss";
 @import "./app/app_month";
 @import "./app/app_day";
 
 
 .wrapper-app {
     margin-top: 18px;
+    transition: height $animate;
 }
 
 .app {

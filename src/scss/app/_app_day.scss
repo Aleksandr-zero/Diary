@@ -15,38 +15,6 @@
             }
         }
 
-        &-btn-swicth {
-            display: flex;
-            position: absolute;
-            top: 11px;
-
-            &.app-day-btn-swicth-left {
-                left: 280px;
-            }
-
-            &.app-day-btn-swicth-right {
-                right: 280px;
-
-                svg {
-                    transform: rotate(180deg);
-                }
-            }
-
-            svg {
-                path {
-                    transition: fill $animate;
-                }
-            }
-
-            &:hover {
-                svg {
-                    path {
-                        fill: $color-btn;
-                    }
-                }
-            }
-        }
-
         &-items-notes-day {
             margin-top: 45px;
             height: 370px;
@@ -121,7 +89,6 @@
             margin-bottom: 20px;
             border-radius: 15px;
 
-            display: flex;
             flex-direction: column;
             justify-content: space-between;
             
@@ -206,7 +173,6 @@
                 left: 30px;
 
                 &-btn {
-                    display: flex;
 
                     path {
                         transition: all $animate;
@@ -226,7 +192,6 @@
                 right: 30px;
 
                 &-btn {
-                    display: flex;
 
                     path {
                         transition: all $animate;
@@ -244,12 +209,10 @@
                 position: absolute;
                 top: 8px;
                 right: 90px;
-                display: flex;
             }
 
             &-btn-switch-grid,
             &-btn-switch-pillar {
-                display: flex;
 
                 svg {
                     transition: all $animate;
@@ -267,8 +230,6 @@
             }
 
             &-wrapper {
-                display: flex;
-
                 transition: opacity $animate, visibility $animate;
 
                 &:first-child {
@@ -309,10 +270,6 @@
 
             &-back-btn-delete {
                 margin-left: 20px;
-            }
-
-            .app-day-content-note-day-btn {
-                display: flex;
             }
 
             &-btn-edit {

@@ -48,9 +48,14 @@ export class ComponentCalendar {
 	}
 
 	// Вспомогательные методы.
-	getTitle_LastDay_FirstDay() {
+	getTitle_FirstDay() {
 		/* Получает индекс первого дня в указанном месяце.  */
-		const titleFirstDay = ARR_DAYS[new Date(DATE.getFullYear(), this.dateMonth, 0).getDay() + 1]
+		let titleFirstDay = ARR_DAYS[new Date(DATE.getFullYear(), this.dateMonth, 0).getDay() + 1];
+
+		if (!titleFirstDay) {
+			titleFirstDay = ARR_DAYS[0];
+		};
+
 		return ARR_DAYS.indexOf(titleFirstDay);
 	} 
 
@@ -125,7 +130,7 @@ export class ComponentCalendar {
 		/* Создаёт секцию дней.  */
 
 		const blockSectionDays = document.createElement("div");
-		blockSectionDays.setAttribute("class", "calendar__content-section-days");
+		blockSectionDays.setAttribute("class", "calendar__content-section-days flex");
 
 		ARR_DAYS.forEach((day) => {
 			blockSectionDays.insertAdjacentHTML("beforeend", ` 
@@ -148,7 +153,7 @@ export class ComponentCalendar {
 	createContentItemDays() {
 		/* Создаёт блок с днями текущего месяца  */
 
-		const indexDayOnWhichMonthBegins = this.getTitle_LastDay_FirstDay();
+		const indexDayOnWhichMonthBegins = this.getTitle_FirstDay();
 		let indexDay = 0;
 		let indexDayWrite = 1;
 
@@ -159,16 +164,16 @@ export class ComponentCalendar {
 
 			if (indexDayOnWhichMonthBegins > indexDay) {
 				this.contentItemsDay.insertAdjacentHTML("beforeend", `
-					<div class="calendar__content-item calendar-item-pass">
+					<div class="calendar__content-item flex calendar-item-pass">
 						<h4 class="calendar__content-item-title">Text</h4>
 					</div>
 				`);
 
 				indexDay++;
 				continue;
-			}
+			};
 
-			let classDay = `calendar__content-item`;
+			let classDay = `calendar__content-item flex`;
 
 			if (indexDayWrite == DATE.getDate() && ARR_MONTHS[DATE.getMonth()] == currentTitleComponent) {
 				classDay += " calendar-item-active";
@@ -188,16 +193,16 @@ export class ComponentCalendar {
 		/* Создаёт кнопки переключения компонента - calendar.  */
 
 		const backBtnsSwitch = document.createElement("div");
-		backBtnsSwitch.setAttribute("class", "calendar__content-back-btn-switch");
+		backBtnsSwitch.setAttribute("class", "calendar__content-back-btn-switch flex");
 
 		const btnSwitchLeft = document.createElement("a");
-		btnSwitchLeft.setAttribute("class", "calendar__content-btn-switch calendar-btn-switch-left");
+		btnSwitchLeft.setAttribute("class", "calendar__content-btn-switch flex calendar-btn-switch-left");
 		btnSwitchLeft.setAttribute("role", "button");
 		btnSwitchLeft.insertAdjacentHTML("beforeend", `${ARROW_SWITCHING}`);
 		btnSwitchLeft.addEventListener("click", () => { this.pressedBtnSwitchingCalendar("left", -1); });
 
 		const btnSwitchRight = document.createElement("a");
-		btnSwitchRight.setAttribute("class", "calendar__content-btn-switch calendar-btn-switch-right");
+		btnSwitchRight.setAttribute("class", "calendar__content-btn-switch flex calendar-btn-switch-right");
 		btnSwitchRight.setAttribute("role", "button");
 		btnSwitchRight.insertAdjacentHTML("beforeend", `${ARROW_SWITCHING}`);
 		btnSwitchRight.addEventListener("click", () => { this.pressedBtnSwitchingCalendar("right", 1); });

@@ -28,4 +28,17 @@ export const blocksBtnsHeaderMonth = () => {
 			btnMonth.classList.remove("nav-header-content-btn-month-pass");
 		});
 	};
-}
+};
+
+
+export const blocksNavFooter_BtnAddNew = (blocks) => {
+	/* Блокирует кнопку на панели задач "добавить новое".  */
+
+	const navFooter_BtnAddNew = document.querySelector(".nav-footer__content-btn");
+
+	if (blocks) {
+		navFooter_BtnAddNew.classList.add("nav-footer-btn-add-new-blocks");
+	} else {
+		navFooter_BtnAddNew.classList.remove("nav-footer-btn-add-new-blocks");
+	};
+};

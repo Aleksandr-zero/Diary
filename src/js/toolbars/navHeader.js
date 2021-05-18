@@ -18,11 +18,12 @@ import {
 import { AppDay } from "../app/appDay.js";
 import { AppYear } from "../app/appYear.js";
 
-import { ComponentCalendar } from "../component/componentCalendar.js";
+import { ComponentCalendar } from "../components/componentCalendar.js";
 
 import {
     hides_appearsBlock_SectionDays,
-    blocksBtnsHeaderMonth
+    blocksBtnsHeaderMonth,
+    blocksNavFooter_BtnAddNew
 } from "../commonTools/generationApp.js";
 
 
@@ -126,6 +127,7 @@ export class NavHeader {
 
                 blocksBtnsHeaderMonth();
                 hides_appearsBlock_SectionDays();
+                blocksNavFooter_BtnAddNew(false);
 
             }, TIMEOUT * 1.25);
 
@@ -134,6 +136,7 @@ export class NavHeader {
                 currentApp.remove();
                 classGenerationAppDay.render(this.todayIsDay);
                 blocksBtnsHeaderMonth();
+                blocksNavFooter_BtnAddNew(false);
 
             }, TIMEOUT * 1.25);
 
@@ -144,6 +147,7 @@ export class NavHeader {
                 this.classAppYear.render();
                 hides_appearsBlock_SectionDays();
                 blocksBtnsHeaderMonth();
+                blocksNavFooter_BtnAddNew(true);
 
             }, TIMEOUT * 1.25);
         };

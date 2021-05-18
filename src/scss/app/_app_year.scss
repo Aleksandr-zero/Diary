@@ -1,0 +1,62 @@
+.app-year {
+
+	&__content {
+		color: $color-text-section-days;
+
+		&-title {
+            text-align: center;
+            font-weight: 500;
+            font-size: 28px;
+		}
+
+		&-items {
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			margin-top: 20px;
+		}
+
+		&-item {
+			width: 22%;
+
+			&-title {
+				color: $color-counter-notes;
+				font-size: 18px;
+				text-align: center;
+				font-weight: 500;
+			}
+
+			&-section-days {
+				display: flex;
+				justify-content: space-between;
+				margin-top: 12px;
+			}
+
+			&-section-day {
+				text-align: center;
+				font-weight: 500;
+				font-size: 12px;
+			}
+
+			&-days {
+				display: grid;
+				grid-template-columns: repeat(7, auto);
+    			grid-gap: 2px;
+    			margin-top: 12px;
+			}
+
+			&-day {
+
+				&.app-year-day-pass {
+					font-size: 0;
+					color: transparent;
+				}
+
+				&-title {
+					font-weight: 500;
+					text-align: center;
+				}
+			}
+		}
+	}
+}

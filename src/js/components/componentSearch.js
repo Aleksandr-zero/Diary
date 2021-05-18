@@ -204,7 +204,7 @@ export class ComponentSearch {
         /* Создаёт блок с основным контентом.  */
 
         this.resultSearchContent = document.createElement("div");
-        this.resultSearchContent.setAttribute("class", "search__content-result-search");
+        this.resultSearchContent.setAttribute("class", "search__content-result-search flex");
         addCss_Block(
             this.resultSearchContent
         );

@@ -1,11 +1,9 @@
 .nav-header {
 
     &__content {
-        display: flex;
         justify-content: space-between;
-        
+
         &-back-btn-calendar {
-            display: flex;
             position: relative;
         }
 
@@ -15,7 +13,6 @@
             font-weight: 400;
             color: $color-border_text;
 
-            display: flex;
             align-items: center;
 
             padding: 12px 34px 12px 24px;
@@ -67,10 +64,6 @@
             }
         }
 
-        &-btn-items {
-            display: flex;
-        }
-
         &-btn-item {
             margin-right: 20px;
 
@@ -88,7 +81,6 @@
                 border: 1px solid #DADADA;
                 border-radius: 10px;
 
-                display: flex;
                 justify-content: center;
 
                 padding: 12px 0;
@@ -115,7 +107,6 @@
         }
 
         &-back-btn-month {
-            display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;

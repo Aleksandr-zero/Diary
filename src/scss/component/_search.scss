@@ -10,11 +10,9 @@
         position: relative;
 
         &-back-input {
-            display: flex;
             align-items: center;
 
             &-btn {
-                display: flex;
                 padding: 4px;
                 margin-right: 8px;
 
@@ -107,7 +105,6 @@
             top: 40px;
             z-index: 20;
 
-            display: flex;
             justify-content: center;
             flex-direction: column;
 

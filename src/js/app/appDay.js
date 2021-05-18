@@ -24,10 +24,13 @@ import {
     AppMonth_CreateNotes
 } from "./appMonth.js";
 
-import { WorkingWithForm } from "../commonTools/form.js";
+import {
+    setsTime_For_Note,
+    WorkingWithForm
+} from "../commonTools/form.js";
 import { NavFooter } from "../toolbars/navFooter.js";
 
-import { add_DeleteActiveClass_BtnNotice } from "../component/componentNotice.js";
+import { add_DeleteActiveClass_BtnNotice } from "../components/componentNotice.js";
 
 import {
     hides_appearsBlock_SectionDays,
@@ -48,6 +51,7 @@ export class AppDay {
 
         this.formAddNew = document.querySelector(".diary__form");
         this.formAddNew_BtnAdd = this.formAddNew.querySelector(".diary__form-content-back-btn");
+        this.btnsLevelNote = this.formAddNew.querySelectorAll(".diary__form-content-back-btn-level");
 
         this.appDay = document.createElement("div");
         this.appDayContent = document.createElement("div");
@@ -64,26 +68,56 @@ export class AppDay {
 
             const inputSubjectValue = this.formAddNew.querySelector("input").value;
             const contentTextAreaValue = this.formAddNew.querySelector("textarea").value;
-            let btnLevelNoteActive_Value;
+            this.btnLevelNoteActive_Value;
             const btnLevelNoteActive = this.formAddNew.querySelector(".diary-form-btn-level-active");
 
             if (btnLevelNoteActive) {
-                btnLevelNoteActive_Value = btnLevelNoteActive.dataset.importance
+                this.btnLevelNoteActive_Value = btnLevelNoteActive.dataset.importance
             } else {
-                btnLevelNoteActive_Value = "normal";
+                this.btnLevelNoteActive_Value = "normal";
             };
 
             if (this.formBtnAdd_EditNote) {
                 this.overwritesCurrentDataNoteWithNew(
                     this.inputValue = inputSubjectValue,
                     this.textareaInput = contentTextAreaValue,
-                    this.btnLevel_Value = btnLevelNoteActive_Value
+                    this.btnLevel_Value = this.btnLevelNoteActive_Value
                 );
             };
 
             this.formAddNew_BtnAdd.removeEventListener("click", this.pressedFormBtnAdd);
+
+            const btnsLevel = this.formAddNew.querySelectorAll(".diary__form-content-back-btn-level");
+            btnsLevel.forEach((btnLevel) => {
+                btnLevel.removeEventListener("click", this.pressedFormBtnLevel);
+            });
+
             this.closeFormAddNew();
         };
+
+        this.pressedFormBtnLevel = () => {
+            /*
+            При нажатии кнопки, пользователь выбирает важность занятия своей заметки.
+            Значение записывается в словарь "receivedDataFromForm".
+            */
+
+            if (event.currentTarget.classList.contains("diary-form-btn-level-active")) {
+                event.currentTarget.classList.remove("diary-form-btn-level-active");
+                this.btnLevelNoteActive_Value = "normal";
+
+                return;
+            };
+
+           this.btnsLevelNote.forEach((btnLevel) => {
+                if (btnLevel.classList.contains("diary-form-btn-level-active")) {
+                    btnLevel.classList.remove("diary-form-btn-level-active");
+                };
+            });
+            
+            this.btnLevelNoteActive_Value = event.currentTarget.dataset.importance;
+
+            event.currentTarget.classList.add("diary-form-btn-level-active");
+        }
     }
 
 
@@ -95,6 +129,10 @@ export class AppDay {
             +(blockDay.dataset.day)
         ];
     }
+
+    measuresHeightApp_addHeightWrapperApp() {
+        this.appWrapper.style.height = `${this.appDayContent.offsetHeight}px`;
+    } 
 
     getDataPressedNote() {
         /* Получает контент нажатой заметки.  */
@@ -144,6 +182,8 @@ export class AppDay {
 
         const monthPressedNote = ARR_MONTHS[ARR_MONTHS.indexOf(dataSetBlockDay[0])];
 
+        const time = setsTime_For_Note();
+
         Object.keys(NOTES_DATA[monthPressedNote][dataSetBlockDay[1]]).forEach((note) => {
             if (NOTES_DATA[monthPressedNote][dataSetBlockDay[1]][note]["note"][1]["content"] ==
                                 this.dataPressedNote["content"]) {
@@ -151,7 +191,7 @@ export class AppDay {
                 NOTES_DATA[monthPressedNote][dataSetBlockDay[1]][note]["note"][0]["subject"] = inputValue;
                 NOTES_DATA[monthPressedNote][dataSetBlockDay[1]][note]["note"][1]["content"] = textareaInput;
                 NOTES_DATA[monthPressedNote][dataSetBlockDay[1]][note]["note"][2]["importance"] = btnLevel_Value;
-                NOTES_DATA[monthPressedNote][dataSetBlockDay[1]][note]["note"][5]["time"] = `${new Date().getHours()}:${new Date().getMinutes()}`;
+                NOTES_DATA[monthPressedNote][dataSetBlockDay[1]][note]["note"][5]["time"] = time;
             };
         });
 
@@ -160,7 +200,7 @@ export class AppDay {
         this.pressedNote.classList.remove(this.pressedNote.classList[1]);
         this.pressedNote.classList.add(`degree-importance-${btnLevel_Value}`);
 
-        this.pressedNote.querySelector(".app-day__content-note-day-time").innerHTML = `${new Date().getHours()}:${new Date().getMinutes()}`;
+        this.pressedNote.querySelector(".app-day__content-note-day-time").innerHTML = time;
     }
 
 
@@ -213,12 +253,12 @@ export class AppDay {
 
         const inputSubject = this.formAddNew.querySelector(".diary__form-content-back-input");
         const contentTextArea = this.formAddNew.querySelector(".diary__form-content-back-textarea");
-        const btnsLevelNote = this.formAddNew.querySelectorAll(".diary__form-content-back-btn-level");
 
         inputSubject.value = `${this.dataPressedNote["subject"]}`;
         contentTextArea.value = `${this.dataPressedNote["content"]}`;
 
-        btnsLevelNote.forEach((btnLevel) => {
+        this.btnsLevelNote.forEach((btnLevel) => {
+            btnLevel.addEventListener("click", this.pressedFormBtnLevel);
             if (this.dataPressedNote["importance"] == btnLevel.dataset.importance) {
                 btnLevel.classList.add("diary-form-btn-level-active");
             };
@@ -396,7 +436,7 @@ export class AppDay {
         backBtnAddNote.setAttribute("class", "app-day__content-note-day-back-add");
 
         const btnAppNote = document.createElement("a");
-        btnAppNote.setAttribute("class", "app-day__content-note-day-back-add-btn");
+        btnAppNote.setAttribute("class", "app-day__content-note-day-back-add-btn flex");
         btnAppNote.setAttribute("role", "button");
 
         btnAppNote.insertAdjacentHTML("beforeend", `${ADD_NOTE_ICON_APP_DAY}`);
@@ -415,10 +455,10 @@ export class AppDay {
         */
 
         const backBtnsSwitchVisualContent = document.createElement("div");
-        backBtnsSwitchVisualContent.setAttribute("class", "app-day__content-note-day-back-btns-switch");
+        backBtnsSwitchVisualContent.setAttribute("class", "app-day__content-note-day-back-btns-switch flex");
 
         const btnSwicthVisualContentGrid = document.createElement("a");
-        btnSwicthVisualContentGrid.setAttribute("class", "app-day__content-note-day-btn-switch-grid");
+        btnSwicthVisualContentGrid.setAttribute("class", "app-day__content-note-day-btn-switch-grid flex");
         btnSwicthVisualContentGrid.setAttribute("role", "button");
         btnSwicthVisualContentGrid.insertAdjacentHTML("beforeend", `
             <svg xmlns="http://www.w3.org/2000/svg" fill="#666666" width="20" height="20" viewBox="0 0 24 24">
@@ -429,7 +469,7 @@ export class AppDay {
         btnSwicthVisualContentGrid.addEventListener("click", () => { this.pressedBtnSwitchVisualContent(); });
 
         const btnSwicthVisualContentPillar = document.createElement("a");
-        btnSwicthVisualContentPillar.setAttribute("class", "app-day__content-note-day-btn-switch-pillar");
+        btnSwicthVisualContentPillar.setAttribute("class", "app-day__content-note-day-btn-switch-pillar flex");
         btnSwicthVisualContentPillar.setAttribute("role", "button");
         btnSwicthVisualContentPillar.insertAdjacentHTML("beforeend", `
             <svg xmlns="http://www.w3.org/2000/svg" fill="#666666" width="20" height="20" viewBox="0 0 24 24">
@@ -451,7 +491,7 @@ export class AppDay {
         backBtnClose.setAttribute("class", "app-day__content-note-day-back-close");
 
         const btnClose = document.createElement("a");
-        btnClose.setAttribute("class", "app-day__content-note-day-back-close-btn");
+        btnClose.setAttribute("class", "app-day__content-note-day-back-close-btn flex");
         btnClose.setAttribute("role", "button");
 
         btnClose.insertAdjacentHTML("beforeend", `${ARROW_ICON_APP_DAY}`);
@@ -504,6 +544,8 @@ export class AppDay {
 
         this.renderBlockApp();
         hides_appearsBlock_SectionDays();
+
+        this.measuresHeightApp_addHeightWrapperApp();
     }
 };
 
@@ -538,7 +580,7 @@ export class AppDay_CreateNote {
         btnEditNote_Wrapper.setAttribute("class", "app-day__content-note-day-back-btn-edit");
 
         const btnEditNote = document.createElement("a");
-        btnEditNote.setAttribute("class", "app-day__content-note-day-btn-edit app-day-content-note-day-btn");
+        btnEditNote.setAttribute("class", "app-day__content-note-day-btn-edit flex app-day-content-note-day-btn");
         btnEditNote.setAttribute("role", "button");
 
         btnEditNote.insertAdjacentHTML("beforeend", `
@@ -564,7 +606,7 @@ export class AppDay_CreateNote {
         btnCompletedNote_Wrapper.setAttribute("class", "app-day__content-note-day-back-btn-completed");
 
         const btnCompletedNote = document.createElement("a");
-        btnCompletedNote.setAttribute("class", "app-day__content-note-day-btn-completed app-day-content-note-day-btn");
+        btnCompletedNote.setAttribute("class", "app-day__content-note-day-btn-completed flex flex");
         btnCompletedNote.setAttribute("role", "button");
 
         btnCompletedNote.addEventListener("click", () => {
@@ -589,7 +631,7 @@ export class AppDay_CreateNote {
         btnDeleteNote_Wrapper.setAttribute("class", "app-day__content-note-day-back-btn-delete");
 
         const btnDeleteNote = document.createElement("a");
-        btnDeleteNote.setAttribute("class", "app-day__content-note-day-btn-delete app-day-content-note-day-btn");
+        btnDeleteNote.setAttribute("class", "app-day__content-note-day-btn-delete flex app-day-content-note-day-btn");
         btnDeleteNote.setAttribute("role", "button");
 
         btnDeleteNote.addEventListener("click", () => {
@@ -611,10 +653,10 @@ export class AppDay_CreateNote {
         /* Создаёт заметку.  */
 
         const note = document.createElement("div");
-        note.setAttribute("class", `app-day__content-note-day degree-importance-${noteData["note"][2]["importance"]}`);
+        note.setAttribute("class", `app-day__content-note-day flex degree-importance-${noteData["note"][2]["importance"]}`);
 
         const noteWrapperTitle_Text = document.createElement("div");
-        noteWrapperTitle_Text.setAttribute("class", "app-day__content-note-day-wrapper");
+        noteWrapperTitle_Text.setAttribute("class", "app-day__content-note-day-wrapper flex");
 
         noteWrapperTitle_Text.insertAdjacentHTML("beforeend", `
             <h4 class="app-day__content-note-day-title">${noteData["note"][0]["subject"]}</h4>
@@ -624,7 +666,7 @@ export class AppDay_CreateNote {
         `);
 
         const noteWrapperBtnEdit_BtnCompleted = document.createElement("div");
-        noteWrapperBtnEdit_BtnCompleted.setAttribute("class", "app-day__content-note-day-wrapper");
+        noteWrapperBtnEdit_BtnCompleted.setAttribute("class", "app-day__content-note-day-wrapper flex");
 
         const timeToAddNote = this.createNoteAppDay_TimeToAddNote(this.noteData = noteData);
         const btnEditNote = this.createNote_AppDay_EditBtn();
