@@ -25,13 +25,7 @@
            animation: emergence-app $animate * 1.5;
 
             &::-webkit-scrollbar {
-                width: 8px;
-                height: 4px;
-                background-color: $white-color;
-            }
-            
-            &::-webkit-scrollbar-thumb {
-                background-color: $color-btn;
+                width: 0;
             }
 
             &.app-day-items-notes-swicth-visual-content {
@@ -94,6 +88,8 @@
             
             transition: all $animate;
 
+            animation: emergence-note-app-day $animate;
+
             &:last-child {
                 margin-bottom: 0;
             }
@@ -142,6 +138,19 @@
                     opacity: 1;
                     transform: translate(-50%, -50%) scale(1.5);
                 }
+            }
+
+            &.animation-sorting {
+                max-width: 100%;
+                transition: all $animate * 2;
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            &.animation-sorting-no-width_height {
+                max-width: 0;
+                max-height: 0;
+                overflow: hidden;
             }
 
             &.degree-importance-important {
@@ -222,6 +231,61 @@
                     svg {
                         fill: $color-btn;
                     }
+                }
+            }
+
+            &-back-sorting-menu {
+                position: absolute;
+                top: 6px;
+                right: 180px;
+
+                &-wrapper {
+                    position: relative;
+                }
+            }
+
+            &-btn-sorting-menu {
+
+                svg {
+                    transition: fill $animate;
+                }
+
+                &:hover {
+
+                    svg {
+                        fill: $color-btn;
+                    }
+                }
+            }
+
+            &-menu-sorting {
+                position: absolute;
+                top: 35px;
+                padding: 12px;
+                background-color: lighten($color-back-menu-sorting, 10%);
+                border-radius: 10px;
+
+                transform: translateX(-50%);
+                left: 50%;
+                z-index: 10;
+
+                transition: opacity $animate * 1.5, visibility $animate * 1.5;
+
+                &-back-btn {
+                    margin-right: 10px;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+
+                &-btn {
+                    font-size: 0;
+                    color: transparent;
+
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 50%;
                 }
             }
 
@@ -353,6 +417,18 @@
                     } 
                 }
             }
+        }
+    }
+
+    @keyframes emergence-note-app-day {
+        0% {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
         }
     }
 }
