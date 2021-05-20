@@ -41,6 +41,32 @@
 
         transition: all $animate * 1.5;
 
+        &-warning {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 40;
+
+            color: $white-color;
+            width: 115%;
+            height: 100%;
+
+            transition: all $animate;
+
+            &-content {
+                position: relative;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+
+                border-radius: 25px;
+                padding: 10px 20px;
+                height: 12%;
+                background: $red-color;
+            }
+        }
+
         &-back {
             display: flex;
             flex-direction: column;
