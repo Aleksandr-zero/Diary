@@ -75,7 +75,7 @@ export const saveDataNote_NOTES_DATA = (activeItemBlockApp, receivedDataFromForm
 	add_DeleteActiveClass_BtnNotice();
 };
 
-export const checkDuplicate_Note_NOTES_DATA = (subject, content) => {
+export const checkDuplicate_Note_NOTES_DATA = (subject, content, editMode) => {
     /* Проверяет заметку на дубликат.  */
 
     let currentMonthIndex = ARR_MONTHS.indexOf(ARR_MONTHS[DATE.getMonth()]);
@@ -83,14 +83,49 @@ export const checkDuplicate_Note_NOTES_DATA = (subject, content) => {
     for (let days in NOTES_DATA[ARR_MONTHS[currentMonthIndex]]) {
         for (let note in NOTES_DATA[ARR_MONTHS[currentMonthIndex]][days]) {
 
-                if ( subject == NOTES_DATA[ARR_MONTHS[currentMonthIndex]][days][note]["note"][0]["subject"] &&
-                     content == NOTES_DATA[ARR_MONTHS[currentMonthIndex]][days][note]["note"][1]["content"] ) {
+            if (editMode) {
+                if ( editMode[0] == NOTES_DATA[ARR_MONTHS[currentMonthIndex]][days][note]["note"][0]["subject"] && 
+                     editMode[1] == NOTES_DATA[ARR_MONTHS[currentMonthIndex]][days][note]["note"][1]["content"] ) {
+                    continue;
+                };
+            };
+
+            if ( subject == NOTES_DATA[ARR_MONTHS[currentMonthIndex]][days][note]["note"][0]["subject"] &&
+                 content == NOTES_DATA[ARR_MONTHS[currentMonthIndex]][days][note]["note"][1]["content"] ) {
 
                 return true;
             };
         };
     };
 };
+
+export const createBlock_DuplicateNoteWarning = () => {
+    /* Создаёт блок с предупреждением, что такая заметка уже существует.  */
+
+    const blockWarning = document.createElement("div");
+    blockWarning.setAttribute("class", "diary__form-content-warning");
+
+    blockWarning.insertAdjacentHTML("beforeend", `
+        <div class="diary__form-content-warning-content">
+            <h2 class="diary__form-content-warning-content-title">You already have such a note!</h2>
+        </div>
+    `);
+
+    addCss_Block(blockWarning);
+
+    document.querySelector(".diary__form-content").prepend(blockWarning);
+
+    setTimeout(() => {
+        blockWarning.style.cssText = `
+            visibility: hidden;
+            opacity: 0;
+        `;
+    }, 1800);
+
+    setTimeout(() => {
+        blockWarning.remove();
+    }, 2000);
+}
 
 
 export class WorkingWithForm {
@@ -123,7 +158,7 @@ export class WorkingWithForm {
             );
             
             if (isDuplicate) {
-                this.createBlock_DuplicateNoteWarning();
+                createBlock_DuplicateNoteWarning();
                 return;
             };
 
@@ -266,36 +301,5 @@ export class WorkingWithForm {
 		this.addEventPressed_Blcoks();
 		this.form.addEventListener("click", this.pressed_FormInactiveZone, true);
 	}
-
-
-    // Отвечают за генерацию блоков
-    createBlock_DuplicateNoteWarning() {
-        /* Создаёт блок с предупреждением, что такая заметка уже существует.  */
-
-        const blockWarning = document.createElement("div");
-        blockWarning.setAttribute("class", "diary__form-content-warning");
-
-        blockWarning.insertAdjacentHTML("beforeend", `
-            <div class="diary__form-content-warning-content">
-                <h2 class="diary__form-content-warning-content-title">You already have such a note!</h2>
-            </div>
-        `);
-
-        addCss_Block(blockWarning);
-
-        document.querySelector(".diary__form-content").prepend(blockWarning);
-
-        setTimeout(() => {
-            blockWarning.style.cssText = `
-                visibility: hidden;
-                opacity: 0;
-            `;
-        }, 1800);
-
-        setTimeout(() => {
-            blockWarning.remove();
-            this.blocksForm(20);
-        }, 2000);
-    }
 };
 	

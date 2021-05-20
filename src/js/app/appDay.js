@@ -28,6 +28,8 @@ import {
 
 import {
     setsTime_For_Note,
+    checkDuplicate_Note_NOTES_DATA,
+    createBlock_DuplicateNoteWarning,
     WorkingWithForm
 } from "../commonTools/form.js";
 import { NavFooter } from "../toolbars/navFooter.js";
@@ -74,6 +76,20 @@ export class AppDay {
             const contentTextAreaValue = this.formAddNew.querySelector("textarea").value;
             this.btnLevelNoteActive_Value;
             const btnLevelNoteActive = this.formAddNew.querySelector(".diary-form-btn-level-active");
+
+            const isDublicate = checkDuplicate_Note_NOTES_DATA(
+                inputSubjectValue,
+                contentTextAreaValue,
+                [
+                    this.dataPressedNote["subject"],
+                    this.dataPressedNote["content"]
+                ]
+            );
+
+            if (isDublicate) {
+                createBlock_DuplicateNoteWarning();
+                return;
+            };
 
             if (btnLevelNoteActive) {
                 this.btnLevelNoteActive_Value = btnLevelNoteActive.dataset.importance;
