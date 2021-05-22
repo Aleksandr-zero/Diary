@@ -28,7 +28,6 @@
     "gulp-imagemin": "^7.1.0",
     "gulp-sass": "^4.1.0",
     "gulp-strip-css-comments": "^2.0.0",
-    "webpack": "^5.36.2",
     "webpack-stream": "^6.1.2"
   }
 }

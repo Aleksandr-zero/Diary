@@ -39,8 +39,6 @@ export class AppYear {
 		this.wrapperApp.style.height = `${this.appYear.offsetHeight}px`;
 	}
 
-	// Отвечают за добавление событий и их обработчиков>
-
 	// Отвечают за генерацию приложения.
 	createContentAppYear() {
 		/* Создаёт контент для приложения.  */

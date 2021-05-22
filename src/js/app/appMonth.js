@@ -254,12 +254,12 @@ export class AppMonth {
     };
 
     renderDays_In_NextMonth() {
-        /* Записывает дни слудующего месяца.  */
+        /* Записывает дни следующего месяца.  */
 
         for (let indexDay = 1; indexDay <= (this.columnsAppItems * this.rowsAppItems) - this.number_RecordedDays; indexDay++) {
             this.createBlockItem_AppMonth(
                 this.classBlockItem = "app-month__content-item",
-                this.classBlockItemDay = "app-month__content-item-day app-day-pass",
+                this.classBlockItemDay = "app-month__content-item-day app-month-day-pass",
                 this.dayNumber = indexDay,
                 this.dataAttributes = {
                     "month": ARR_MONTHS[DATE_MONTH_CHANGE + 1],
